@@ -1,4 +1,41 @@
 <resources>
     <string name="app_name">location_feature</string>
     <string name="title_activity_maps">AIzaSyBcA1uD6xUQYelxgZcr-e8xzFW90TX6cmw</string>
+
+
+    <!-- Botones -->
+    <string name="buttonback">boton atras</string>
+    <string name="buttongoogle">boton google</string>
+    <string name="buttonfacebook">boton facebook</string>
+    <string name="buttonacceso">ACCESO</string>
+    <string name="buttoncrear">REGISTRAR</string>
+    <string name="buttonregistrar">Registrarse</string>
+    <string name="buttoniniciar">Iniciar sesión</string>
+
+    <!-- Textos -->
+    <string name="textologin">Iniciar sesión</string>
+    <string name="textowelcome">¡Estamos felices de verte aqui!</string>
+    <string name="textowithoutaccount">¿No tienes una cuenta?</string>
+    <string name="textowithaccount">¿Ya tienes una cuenta?</string>
+    <string name="socialmedia">O iniciar sesión usando las redes sociales</string>
+    <string name="textocreateaccount">O crear una cuenta usando las redes sociales</string>
+    <string name="textoor">O</string>
+    <string name="textolvidepassword">¿Has olvidado tu contraseña?</string>
+    <string name="textocrea">Crea tu </string>
+    <string name="textocuenta">Cuenta</string>
+
+    <!-- Edits -->
+    <string name="editname">Nombre</string>
+    <string name="editemail">Email</string>
+    <string name="editpassword">Contraseña</string>
+    <string name="editrepeatpassword">Confirma tu contraseña</string>
+
+    <!-- imagenes -->
+    <string name="descripcioncamion">imagen_camion</string>
+    <string name="descripcionforma">imagen_forma</string>
+    <string name="ic_email">icon_email</string>
+    <string name="ic_user">icon_user</string>
+    <string name="ic_password">icon_password</string>
+
+
 </resources>
