@@ -288,8 +288,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableUserLocation()
                 zoomToUserLocation()
-            } else {
-                // We can show a dialog that permission is not granted...
             }
         }
     }
