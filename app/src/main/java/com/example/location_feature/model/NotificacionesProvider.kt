@@ -1,6 +1,7 @@
 package com.example.b_notificacion.model
 
-import com.example.b_notificacion.R
+
+import com.example.location_feature.R
 
 class notificacionesProvider {
     companion object{
