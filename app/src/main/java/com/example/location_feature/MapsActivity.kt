@@ -49,14 +49,16 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private var userLocationAccuracyCircle: Circle? = null
 
 
+    @SuppressLint("VisibleForTests")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_maps) // Asegúrate de que este es el nombre correcto de tu layout XML
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        val geocoder = Geocoder(this)
+            .findFragmentById(R.id.map) as? SupportMapFragment // Usa el operador seguro de casting
+        mapFragment?.getMapAsync(this) // Llama a getMapAsync solo si mapFragment no es null
+        geocoder = Geocoder(this)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -66,6 +68,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -288,6 +291,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableUserLocation()
                 zoomToUserLocation()
+            } else {
+                // We can show a dialog that permission is not granted...
             }
         }
     }
