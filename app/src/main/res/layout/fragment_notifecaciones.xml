@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:background="#ffffff"
+    android:id="@+id/notificacionbot"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageButton
+
+        android:id="@+id/btRegreo1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_botomnotificacion"
+        android:contentDescription="btnC_back"
+        android:padding="15dp"
+        android:src="@drawable/ic_arrow_back_notificacion_comentarios"
+        android:layout_gravity="start|top"/>
+
+    <TextView
+        android:id="@+id/Tlnotif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="23dp"
+        android:text="Notificación"
+        android:textColor="#000000"
+
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/btRegreo1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgnotificacion"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_regresar_notificacion"
+        android:src="@drawable/ic_notificaciones02" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RECYCLERVIEW_Notificaciones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp" />
+
+</FrameLayout>
+
