@@ -3,8 +3,8 @@ package com.example.b_notificacion.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.b_notificacion.R
 import com.example.b_notificacion.model.notificaciones
+import com.example.location_feature.R
 
 class notificacionadapter(private val noticicacionesList:List<notificaciones>):RecyclerView.Adapter<notificacionViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): notificacionViewHolder {

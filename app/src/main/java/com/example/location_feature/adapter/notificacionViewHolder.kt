@@ -5,8 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.example.b_notificacion.R
 import com.example.b_notificacion.model.notificaciones
+import com.example.location_feature.R
 
 class notificacionViewHolder(view: View):ViewHolder(view) {
     val dia =view.findViewById<TextView>(R.id.tvDia)
