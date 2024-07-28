@@ -23,6 +23,7 @@
     <string name="textolvidepassword">¿Has olvidado tu contraseña?</string>
     <string name="textocrea">Crea tu </string>
     <string name="textocuenta">Cuenta</string>
+    <string name = "editarperfil">Editar Usuario</string>
 
     <!-- Edits -->
     <string name="editname">Nombre</string>
@@ -36,6 +37,23 @@
     <string name="ic_email">icon_email</string>
     <string name="ic_user">icon_user</string>
     <string name="ic_password">icon_password</string>
+    <string name="cambiarcontra">Cambiar Contraseña</string>
 
+    <string name="tener_acceso">TENER ACCESO</string>
+    <string name="numero">+51 918 371 294</string>
+    <string name="ingresa_numero">Ingresa tu número de teléfono</string>
+    <string name="verificacion_descripcion">Le enviaremos una contraseña única a este número de teléfono móvil.</string>
+    <string name="verificacion">Verificación OTP</string>
+    <string name="correo">Correo Electrónico</string>
+    <string name="numero_telefonico">Número Telefónico</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="editar_nombre">Nombre</string>
+    <string name="cambiar_contraseña">CAMBIAR CONTRASEÑA</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="confirma_tu_contrase_a">Confirma tu contraseña</string>
+    <string name="editar">Editar Perfil</string>
+    <string name="cambiar_contra">Cambiar Contraseña</string>
+    <string name="num">Numero</string>
+    <string name="butonback">butonback</string>
 
 </resources>
