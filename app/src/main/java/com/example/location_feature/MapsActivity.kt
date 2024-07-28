@@ -106,8 +106,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 )
             }
         }
-
-
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -182,7 +180,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         ) {
             startLocationUpdates()
         } else {
-            // you need to request permissions...
         }
     }
 
@@ -216,20 +213,13 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return
         }
         fusedLocationProviderClient.lastLocation
         locationTask.addOnSuccessListener { location ->
             val latLng = LatLng(location.latitude, location.longitude)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
-            // mMap.addMarker(new MarkerOptions().position(latLng));
         }
     }
 
