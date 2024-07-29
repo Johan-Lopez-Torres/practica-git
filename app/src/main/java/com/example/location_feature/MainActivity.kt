@@ -1,6 +1,9 @@
 package com.example.location_feature
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
 import android.location.Location
@@ -27,13 +30,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.b_notificacion.adapter.notificacionadapter
 import com.example.b_notificacion.model.notificacionesProvider
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
 
 class MainActivity : AppCompatActivity() {
 
+    //variables de maps
     private val TAG = "MainActivity"
     var LOCATION_REQUEST_CODE = 10001
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
     var locationRequest: LocationRequest? = null
+
+    //variables de Geofencing y FCM
+    private lateinit var geofencingClient: GeofencingClient
+    private val geofencePendingIntent by lazy {
+        val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
+        PendingIntent.getBroadcast(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    companion object {
+        private const val LATITUDE = -9.117083 // Cambia a la latitud deseada
+        private const val LONGITUDE = -78.515884 // Cambia a la longitud deseada
+        private const val RADIUS = 100f // Radio en metros
+    }
+
 
     var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
@@ -43,17 +69,51 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("VisibleForTests")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationRequest = LocationRequest.create();
         locationRequest!!.setInterval(4000);
         locationRequest!!.setFastestInterval(2000);
         locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        val geofence = Geofence.Builder()
+            .setRequestId("geofence_id")
+            .setCircularRegion(
+                LATITUDE,
+                LONGITUDE,
+                RADIUS
+            )
+            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+            .build()
+
+        val geofencingRequest = GeofencingRequest.Builder()
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+            .addGeofence(geofence)
+            .build()
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
+        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)
+            .addOnSuccessListener {
+                // Geofence añadido con éxito
+            }
+            .addOnFailureListener {
+                // Falló al añadir el geofence
+            }
     }
 
     override fun onStart() {
@@ -173,6 +233,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onStop() {
         super.onStop()
         stopLocationUpdates()
@@ -200,7 +261,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-   fun onCreate1(savedInstanceState: Bundle?) {
+
+    fun onCreate1(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_notifecaciones)
         initRecyclerView()
@@ -215,11 +277,13 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.RECYCLERVIEW_Notificaciones)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = notificacionadapter(notificacionesProvider.noticicacionesList)
     }
+
     fun onCreate3(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
