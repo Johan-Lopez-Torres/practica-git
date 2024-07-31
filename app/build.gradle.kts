@@ -53,9 +53,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     // implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation ("com.google.android.gms:play-services-location:17.0.0")
+    implementation("com.google.android.gms:play-services-maps:17.0.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics")
     // dependecia para FCM
     implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
+
 }

@@ -2,22 +2,23 @@ package com.example.location_feature
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager.TAG
-import com.example.location_feature.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -32,11 +33,13 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import java.io.IOException
 
 
-class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerDragListener {
+class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
+    GoogleMap.OnMarkerDragListener {
 
     private val TAG = "MapsActivity"
     private lateinit var mMap: GoogleMap
@@ -48,32 +51,42 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private var userLocationMarker: Marker? = null
     private var userLocationAccuracyCircle: Circle? = null
 
+    private val GEOFENCE_RADIUS = 200f
+    private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
+    private lateinit var geofencingClient: GeofencingClient
+    private lateinit var geofenceHelper: GeofenceHelper
+
+    private val FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
+    private val BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002
+
 
     @SuppressLint("VisibleForTests")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps) // Asegúrate de que este es el nombre correcto de tu layout XML
+        setContentView(R.layout.activity_maps)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as? SupportMapFragment // Usa el operador seguro de casting
-        mapFragment?.getMapAsync(this) // Llama a getMapAsync solo si mapFragment no es null
+            .findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
         geocoder = Geocoder(this)
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create().apply {
             interval = 500
             fastestInterval = 500
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
-    }
 
+        val geofencingClient = LocationServices.getGeofencingClient(this)
+        val geofenceHelper = GeofenceHelper(this)
+
+    }
 
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         mMap.setOnMapLongClickListener(this)
@@ -84,8 +97,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            // enableUserLocation()
-            // zoomToUserLocation()
+//             enableUserLocation()
+//             zoomToUserLocation()
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
@@ -179,7 +192,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             startLocationUpdates()
-        } else {
         }
     }
 
@@ -223,25 +235,32 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         }
     }
 
-    override fun onMapLongClick(latLng: LatLng) {
-        Log.d(TAG, "onMapLongClick: $latLng")
-        try {
-            val addresses: MutableList<Address>? =
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null) {
-                if (addresses.isNotEmpty()) {
-                    val address: Address = addresses.get(0)
-                    val streetAddress = address.getAddressLine(0)
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(latLng)
-                            .title(streetAddress)
-                            .draggable(true)
-                    )
-                }
+    override fun onMapLongClick(p0: LatLng) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            handleMapLongClick(p0)
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+            ) {
+                //We show a dialog and ask for permission
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    BACKGROUND_LOCATION_ACCESS_REQUEST_CODE
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    BACKGROUND_LOCATION_ACCESS_REQUEST_CODE
+                )
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
     }
 
@@ -285,6 +304,59 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 // We can show a dialog that permission is not granted...
             }
         }
+    }
+
+
+    private fun handleMapLongClick(latLng: LatLng) {
+        mMap.clear()
+        addMarker(latLng)
+        addCircle(latLng, GEOFENCE_RADIUS)
+        addGeofence(latLng, GEOFENCE_RADIUS)
+    }
+
+    @SuppressLint("VisibleForTests")
+    private fun addGeofence(latLng: LatLng, radius: Float) {
+        val geofence: Geofence = geofenceHelper.getGeofence(
+            GEOFENCE_ID,
+            LatLng( -9.11708, -78.515884),
+            100f,
+            Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_DWELL or Geofence.GEOFENCE_TRANSITION_EXIT
+        )
+        val geofencingRequest: GeofencingRequest = geofenceHelper.getGeofencingRequest(geofence)
+        val pendingIntent: PendingIntent? = geofenceHelper.getPendingIntent()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+            ?.addOnSuccessListener(OnSuccessListener<Void?> {
+                Log.d(
+                    TAG,
+                    "onSuccess: Geofence Added..."
+                )
+            })
+            ?.addOnFailureListener({ e ->
+                val errorMessage: String? = geofenceHelper.getErrorString(e)
+                Log.d(TAG, "onFailure: $errorMessage")
+            })
+    }
+
+    private fun addMarker(latLng: LatLng) {
+        val markerOptions = MarkerOptions().position(latLng)
+        mMap.addMarker(markerOptions)
+    }
+
+    private fun addCircle(latLng: LatLng, radius: Float) {
+        val circleOptions = CircleOptions()
+        circleOptions.center(latLng)
+        circleOptions.radius(radius.toDouble())
+        circleOptions.strokeColor(Color.argb(255, 255, 0, 0))
+        circleOptions.fillColor(Color.argb(64, 255, 0, 0))
+        circleOptions.strokeWidth(4f)
+        mMap.addCircle(circleOptions)
     }
 
 

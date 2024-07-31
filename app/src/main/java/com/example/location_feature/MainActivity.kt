@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
     var LOCATION_REQUEST_CODE = 10001
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
     var locationRequest: LocationRequest? = null
-
-    //variables de Geofencing y FCM
     private lateinit var geofencingClient: GeofencingClient
     private val geofencePendingIntent by lazy {
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
@@ -109,10 +107,10 @@ class MainActivity : AppCompatActivity() {
         }
         geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)
             .addOnSuccessListener {
-                // Geofence añadido con éxito
+                Log.d(TAG, "onCreate: Geofence added")
             }
             .addOnFailureListener {
-                // Falló al añadir el geofence
+                Log.d(TAG, "onCreate: Geofence not added")
             }
     }
 
@@ -129,6 +127,8 @@ class MainActivity : AppCompatActivity() {
             askLocationPermission()
         }
     }
+
+
 
     private fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
@@ -256,8 +256,6 @@ class MainActivity : AppCompatActivity() {
                 checkSettingsAndStartLocationUpdates()
             } else {
                 //Permission not granted
-
-
             }
         }
     }
