@@ -2,32 +2,8 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DROPDOWN" />
-<<<<<<< HEAD
-        <DropdownSelection timestamp="2024-07-28T16:50:58.975133300Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\chave\.android\avd\Pixel_3a_API_33.avd" />
-=======
-        <DropdownSelection timestamp="2024-07-28T13:58:05.303493Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Rasiy\.android\avd\Pixel_3_API_29.avd" />
->>>>>>> 0215f67fbae0180f7104bf316d91aceda321030c
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-<<<<<<< HEAD
-=======
-      </SelectionState>
-      <SelectionState runConfigName="MainActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="MapsActivity">
         <option name="selectionMode" value="DROPDOWN" />
->>>>>>> 0215f67fbae0180f7104bf316d91aceda321030c
       </SelectionState>
     </selectionStates>
   </component>
