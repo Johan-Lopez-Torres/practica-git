@@ -12,7 +12,7 @@ import com.google.android.gms.location.GeofencingEvent
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
-private val TAG: String = "GeofenceBroadcastReceiv"
+    private val TAG: String = "GeofenceBroadcastReceiv"
 
     @SuppressLint("VisibleForTests")
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -26,7 +26,7 @@ private val TAG: String = "GeofenceBroadcastReceiv"
         }
         val geofenceList = geofencingEvent.triggeringGeofences
         for (geofence in geofenceList) {
-            Log.d(TAG, "onReceive: " + geofence.requestId)
+            Log.d(TAG, "onReceive geodenceEvent: " + geofence.requestId)
         }
         //        Location location = geofencingEvent.getTriggeringLocation();
         val transitionType = geofencingEvent.geofenceTransition
@@ -34,7 +34,7 @@ private val TAG: String = "GeofenceBroadcastReceiv"
             Geofence.GEOFENCE_TRANSITION_ENTER -> {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
-                    "GEOFENCE_TRANSITION_ENTER", "dfdf",
+                    "GEOFENCE_TRANSITION_ENTER", "dfasdsadsdf",
                     MapsActivity::class.java
                 )
             }

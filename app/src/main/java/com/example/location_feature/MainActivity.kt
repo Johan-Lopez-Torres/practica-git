@@ -30,18 +30,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.b_notificacion.adapter.notificacionadapter
 import com.example.b_notificacion.model.notificacionesProvider
+import com.example.location_feature.model.TruckLocation
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
-    //variables de maps
-    private val TAG = "MainActivity"
-    var LOCATION_REQUEST_CODE = 10001
-    var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    var locationRequest: LocationRequest? = null
+    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
     private lateinit var geofencingClient: GeofencingClient
+    private lateinit var mMap: GoogleMap
+
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val LATITUDE = -9.117083
+        private const val LONGITUDE = -78.515884
+        private const val RADIUS = 100f
+        private const val LOCATION_REQUEST_CODE = 10001
+    }
+
     private val geofencePendingIntent by lazy {
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
         PendingIntent.getBroadcast(
@@ -50,12 +68,6 @@ class MainActivity : AppCompatActivity() {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
-    }
-
-    companion object {
-        private const val LATITUDE = -9.117083 // Cambia a la latitud deseada
-        private const val LONGITUDE = -78.515884 // Cambia a la longitud deseada
-        private const val RADIUS = 100f // Radio en metros
     }
 
 
@@ -76,42 +88,11 @@ class MainActivity : AppCompatActivity() {
         geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        locationRequest = LocationRequest.create();
-        locationRequest!!.setInterval(4000);
-        locationRequest!!.setFastestInterval(2000);
-        locationRequest!!.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        val geofence = Geofence.Builder()
-            .setRequestId("geofence_id")
-            .setCircularRegion(
-                LATITUDE,
-                LONGITUDE,
-                RADIUS
-            )
-            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
-            .build()
-
-        val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            return
+        locationRequest = LocationRequest.create().apply {
+            interval = 4000
+            fastestInterval = 2000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
-        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)
-            .addOnSuccessListener {
-                Log.d(TAG, "onCreate: Geofence added")
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "onCreate: Geofence not added")
-            }
     }
 
     override fun onStart() {
@@ -123,9 +104,62 @@ class MainActivity : AppCompatActivity() {
         ) {
 //            getLastLocation();
             checkSettingsAndStartLocationUpdates()
+            observeCamionLocation()
+
+            val database = Firebase.database
+            val myRef = database.getReference("message")
+            myRef.setValue("Hello, World!")
+            Log.d("realtime", "HOLA MUNDO")
         } else {
             askLocationPermission()
         }
+    }
+
+
+
+    //FUNCIONES DE FIREBASE REALTIME DATABASE
+    private fun updateCamionLocation(location: Location) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("camion")
+
+        val camionLocation = TruckLocation(
+            latitude = location.latitude,
+            longitude = location.longitude
+        )
+
+        myRef.setValue(camionLocation).addOnSuccessListener {
+            Log.d(TAG, "Ubicación actualizada en Firebase")
+        }.addOnFailureListener {
+            Log.e(TAG, "Error al actualizar la ubicación en Firebase", it)
+        }
+    }
+
+
+    private fun observeCamionLocation() {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("camion")
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val camionLocation = snapshot.getValue(TruckLocation::class.java)
+
+                if (camionLocation != null) {
+                    updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "Error al leer la ubicación del camión", error.toException())
+            }
+        })
+    }
+
+
+    private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
+        val camionLocation = LatLng(latitude, longitude)
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(camionLocation).title("Camión de basura"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
     }
 
 
@@ -146,8 +180,9 @@ class MainActivity : AppCompatActivity() {
             if (location != null) {
                 //We have a location
                 Log.d(TAG, "onSuccess: " + location.toString())
-                Log.d(TAG, "onSuccess: " + location.getLatitude())
-                Log.d(TAG, "onSuccess: " + location.getLongitude())
+                Log.d(TAG, "onSuccess: latitud " + location.getLatitude())
+                Log.d(TAG, "onSuccess: longitud " + location.getLongitude())
+                updateCamionLocation(location)
             } else {
                 Log.d(TAG, "onSuccess: Location was null...")
             }
@@ -158,30 +193,30 @@ class MainActivity : AppCompatActivity() {
                 "onFailure: " + e.localizedMessage
             )
         }
+
     }
 
 
     private fun checkSettingsAndStartLocationUpdates() {
         val request = locationRequest?.let {
             LocationSettingsRequest.Builder()
-                .addLocationRequest(it).build()
-        }
+                .addLocationRequest(it)
+                .build()
+        } ?: return
+
         val client = LocationServices.getSettingsClient(this)
-        val locationSettingsResponseTask = request?.let { client.checkLocationSettings(it) }
-        if (locationSettingsResponseTask != null) {
-            locationSettingsResponseTask.addOnSuccessListener { //Settings of device are satisfied and we can start location updates
-                startLocationUpdates()
-            }
+        val locationSettingsResponseTask = client.checkLocationSettings(request)
+
+        locationSettingsResponseTask.addOnSuccessListener {
+            startLocationUpdates()
         }
-        if (locationSettingsResponseTask != null) {
-            locationSettingsResponseTask.addOnFailureListener { e ->
-                if (e is ResolvableApiException) {
-                    val apiException = e as ResolvableApiException
-                    try {
-                        apiException.startResolutionForResult(this@MainActivity, 1001)
-                    } catch (ex: SendIntentException) {
-                        ex.printStackTrace()
-                    }
+
+        locationSettingsResponseTask.addOnFailureListener { e ->
+            if (e is ResolvableApiException) {
+                try {
+                    e.startResolutionForResult(this@MainActivity, 1001)
+                } catch (ex: SendIntentException) {
+                    ex.printStackTrace()
                 }
             }
         }
@@ -208,31 +243,31 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun askLocationPermission() {
+        // Verifica si el permiso de ubicación ha sido concedido
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // Verifica si se debe mostrar una explicación para solicitar el permiso
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
+                // Muestra una explicación al usuario sobre por qué se necesita el permiso (esto generalmente implica mostrar un diálogo)
                 Log.d(TAG, "askLocationPermission: you should show an alert dialog...")
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_REQUEST_CODE
-                )
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_REQUEST_CODE
-                )
             }
+
+            // Solicita el permiso de ubicación
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_REQUEST_CODE
+            )
         }
     }
+
 
     override fun onStop() {
         super.onStop()
@@ -251,13 +286,20 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_REQUEST_CODE) {
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-//                getLastLocation();
+                getLastLocation();
                 checkSettingsAndStartLocationUpdates()
+
             } else {
-                //Permission not granted
+                Log.d(TAG, "onRequestPermissionsResult: Permission denied")
             }
         }
+    }
+
+
+    fun initRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.RECYCLERVIEW_Notificaciones)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = notificacionadapter(notificacionesProvider.noticicacionesList)
     }
 
     fun onCreate1(savedInstanceState: Bundle?) {
@@ -273,13 +315,6 @@ class MainActivity : AppCompatActivity() {
             // Muestra un toast al presionar el botón
             Toast.makeText(this, "Botón de retroceso presionado", Toast.LENGTH_SHORT).show()
         }
-
-    }
-
-    fun initRecyclerView() {
-        val recyclerView = findViewById<RecyclerView>(R.id.RECYCLERVIEW_Notificaciones)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = notificacionadapter(notificacionesProvider.noticicacionesList)
     }
 
     fun onCreate3(savedInstanceState: Bundle?) {
@@ -302,3 +337,5 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+

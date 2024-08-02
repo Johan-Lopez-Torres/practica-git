@@ -3,6 +3,7 @@ package com.example.location_feature
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
@@ -41,23 +42,33 @@ import java.io.IOException
 class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
     GoogleMap.OnMarkerDragListener {
 
-    private val TAG = "MapsActivity"
+
+
+    //VARIABLES DE MAPAS
     private lateinit var mMap: GoogleMap
-    private lateinit var geocoder: Geocoder
-    private val ACCESS_LOCATION_REQUEST_CODE = 10001
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
-
     private var userLocationMarker: Marker? = null
     private var userLocationAccuracyCircle: Circle? = null
 
-    private val GEOFENCE_RADIUS = 200f
-    private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
+    //VARIABLES DE GEOFENCE
+    private lateinit var geocoder: Geocoder
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var geofenceHelper: GeofenceHelper
 
-    private val FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
-    private val BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002
+
+    companion object {
+        private val GEOFENCE_RADIUS = 200f
+        private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
+        private val BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002
+        private val ACCESS_LOCATION_REQUEST_CODE = 10001
+        private const val TAG = "MapsActivity"
+        private const val RADIUS = 200f
+        private val FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
+        private const val LATITUDE = -9.117115
+        private const val LONGITUDE = -78.515878
+        private const val LOCATION_REQUEST_CODE = 10001
+    }
 
 
     @SuppressLint("VisibleForTests")
@@ -65,11 +76,18 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        geocoder = Geocoder(this)
+
+        //geofence in maps
+        geofencingClient = LocationServices.getGeofencingClient(this)
+        geofenceHelper = GeofenceHelper(this)
+
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
-        geocoder = Geocoder(this)
+
+
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -79,38 +97,87 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
-        val geofencingClient = LocationServices.getGeofencingClient(this)
-        val geofenceHelper = GeofenceHelper(this)
+        //GEOFENCE CODE
+
+//        val geofence = Geofence.Builder()
+//            .setRequestId("geofence_id")
+//            .setCircularRegion(
+//                LATITUDE,
+//                LONGITUDE,
+//                RADIUS
+//            )
+//            .setExpirationDuration(Geofence.NEVER_EXPIRE)
+//            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+//            .build()
+//
+//        val geofencingRequest = GeofencingRequest.Builder()
+//            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+//            .addGeofence(geofence)
+//            .build()
+//
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//
+//            return
+//        }
+//        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)
+//            .addOnSuccessListener {
+//                Log.d(TAG, "onCreate: Geofence added")
+//            }
+//            .addOnFailureListener {
+//                Log.d(TAG, "onCreate: Geofence not added")
+//            }
+        Log.d(TAG, "Trying to add a geofence")
+        try {
+            addGeofence(LatLng(-9.11708, -78.515884), RADIUS)
+            Log.d(TAG, "Tuviste exito geofence" )
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to add  johan: ${e.message}")
+        }
+
 
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "onStart: permission granted")
+            startLocationUpdates()
+        }
+    }
+
+
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.d(TAG, "Map is ready")
         mMap = googleMap
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         mMap.setOnMapLongClickListener(this)
         mMap.setOnMarkerDragListener(this)
 
+        //            LatLng( -9.11708, -78.515884)
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-//             enableUserLocation()
-//             zoomToUserLocation()
+             enableUserLocation()
+             zoomToUserLocation()
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
-                // We can show user a dialog why this permission is necessary
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    ACCESS_LOCATION_REQUEST_CODE
-                )
+                Log.d(TAG, "onMapReady: Should show request permission rationale")
             } else {
                 ActivityCompat.requestPermissions(
                     this,
@@ -119,6 +186,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 )
             }
         }
+
+
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -133,7 +202,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         val latLng = LatLng(location.latitude, location.longitude)
 
         if (userLocationMarker == null) {
-            // Create a new marker
             val markerOptions = MarkerOptions()
                 .position(latLng)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar))
@@ -142,7 +210,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             userLocationMarker = mMap.addMarker(markerOptions)
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
         } else {
-            // Use the previously created marker
             userLocationMarker!!.position = latLng
             userLocationMarker!!.rotation = location.bearing
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
@@ -162,6 +229,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         }
     }
 
+
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -178,22 +246,13 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             locationCallback,
             Looper.getMainLooper()
         )
+
     }
 
     private fun stopLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            startLocationUpdates()
-        }
-    }
 
     override fun onStop() {
         super.onStop()
@@ -225,7 +284,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             return
         }
         fusedLocationProviderClient.lastLocation
@@ -241,6 +299,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            Log.d(TAG, "Hola onMapLongClick: " + p0.latitude + ", " + p0.longitude)
             handleMapLongClick(p0)
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -248,12 +307,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 )
             ) {
-                //We show a dialog and ask for permission
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    BACKGROUND_LOCATION_ACCESS_REQUEST_CODE
-                )
+                Log.d(TAG, "onMapLongClick: Should show request permission rationale")
             } else {
                 ActivityCompat.requestPermissions(
                     this,
@@ -301,7 +355,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 enableUserLocation()
                 zoomToUserLocation()
             } else {
-                // We can show a dialog that permission is not granted...
+                Log.d(TAG, "onRequestPermissionsResult: permission denied")
             }
         }
     }
@@ -314,35 +368,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         addGeofence(latLng, GEOFENCE_RADIUS)
     }
 
-    @SuppressLint("VisibleForTests")
-    private fun addGeofence(latLng: LatLng, radius: Float) {
-        val geofence: Geofence = geofenceHelper.getGeofence(
-            GEOFENCE_ID,
-            LatLng( -9.11708, -78.515884),
-            100f,
-            Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_DWELL or Geofence.GEOFENCE_TRANSITION_EXIT
-        )
-        val geofencingRequest: GeofencingRequest = geofenceHelper.getGeofencingRequest(geofence)
-        val pendingIntent: PendingIntent? = geofenceHelper.getPendingIntent()
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
-            ?.addOnSuccessListener(OnSuccessListener<Void?> {
-                Log.d(
-                    TAG,
-                    "onSuccess: Geofence Added..."
-                )
-            })
-            ?.addOnFailureListener({ e ->
-                val errorMessage: String? = geofenceHelper.getErrorString(e)
-                Log.d(TAG, "onFailure: $errorMessage")
-            })
-    }
 
     private fun addMarker(latLng: LatLng) {
         val markerOptions = MarkerOptions().position(latLng)
@@ -359,5 +384,38 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         mMap.addCircle(circleOptions)
     }
 
+    @SuppressLint("VisibleForTests")
+    private fun addGeofence(latLng: LatLng, radius: Float) {
+        val geofence: Geofence = geofenceHelper.getGeofence(
+            GEOFENCE_ID,
+            latLng,
+            radius,
+            Geofence.GEOFENCE_TRANSITION_ENTER
+                    or Geofence.GEOFENCE_TRANSITION_DWELL
+                    or Geofence.GEOFENCE_TRANSITION_EXIT
+        )
+
+        val geofencingRequest: GeofencingRequest = geofenceHelper.getGeofencingRequest(geofence)
+        val pendingIntent: PendingIntent? = geofenceHelper.getPendingIntent()
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
+            ?.addOnSuccessListener({
+                Log.d(
+                    TAG,
+                    "onSuccess: Geofence Added..."
+                )
+            })
+            ?.addOnFailureListener({ e ->
+                val errorMessage: String? = geofenceHelper.getErrorString(e)
+                Log.d(TAG, "onFailure kai: $errorMessage")
+            })
+    }
 
 }

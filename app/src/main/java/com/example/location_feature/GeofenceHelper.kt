@@ -14,10 +14,12 @@ import com.google.android.gms.maps.model.LatLng
 
 class GeofenceHelper(base: Context?) : ContextWrapper(base) {
 
-    var _pendingIntent : PendingIntent? = null
+    var _pendingIntent: PendingIntent? = null
+
     companion object {
         private const val TAG = "GeofenceHelper"
     }
+
     fun getGeofencingRequest(@SuppressLint("VisibleForTests") geofence: Geofence?): GeofencingRequest {
         return GeofencingRequest.Builder()
             .addGeofence(geofence)
@@ -37,17 +39,20 @@ class GeofenceHelper(base: Context?) : ContextWrapper(base) {
     }
 
     fun getPendingIntent(): PendingIntent? {
-        if (_pendingIntent  != null) {
+        if (_pendingIntent != null) {
             return _pendingIntent
         }
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
-        _pendingIntent  =
-            PendingIntent.getBroadcast(this,
-                2607,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        _pendingIntent = PendingIntent.getBroadcast(
+            this,
+            2607,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+
         return _pendingIntent
     }
+
 
     fun getErrorString(e: Exception): String? {
         if (e is ApiException) {

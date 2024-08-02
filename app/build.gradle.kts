@@ -9,13 +9,15 @@ android {
     namespace = "com.example.location_feature"
     compileSdk = 34
 
+    namespace = "com.example.location_feature"
+    compileSdk = 34
+
     defaultConfig {
         applicationId = "com.example.location_feature"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,16 +50,16 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.maps)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation ("com.google.android.gms:play-services-location:17.0.0")
     implementation("com.google.android.gms:play-services-maps:17.0.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics")
-    // dependecia para FCM
-    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+
 
 }

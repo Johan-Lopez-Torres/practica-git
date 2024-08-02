@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -18,59 +19,62 @@ import androidx.core.app.NotificationManagerCompat
 import kotlin.random.Random
 
 
-class NotificationHelper(base: Context?) : ContextWrapper(base) {
-    private val CHANNEL_NAME = "High priority channel"
-    private val CHANNEL_ID = "com.example.location_feature $CHANNEL_NAME"
-    companion object {
-        private const val TAG = "NotificationHelper"
-    }
+class NotificationHelper(private val context: Context?) {
+
+    private val CHANNEL_ID = "geofence_channel"
+    private val CHANNEL_NAME = "Geofence Notifications"
+    private val CHANNEL_DESC = "Notifications for geofence transitions"
+
     init {
-        createChannels()
+        createNotificationChannel()
     }
 
-    private fun createChannels() {
-        val notificationChannel =
-            NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-        notificationChannel.enableLights(true)
-        notificationChannel.enableVibration(true)
-        notificationChannel.description = "this is the description of the channel."
-        notificationChannel.lightColor = Color.RED
-        notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        manager.createNotificationChannel(notificationChannel)
-    }
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = CHANNEL_DESC
+            }
 
-    fun sendHighPriorityNotification(title: String?, body: String?, activityName: Class<*>?) {
-        val intent = Intent(this, activityName)
-
-        val pendingIntent =
-            PendingIntent.getActivity(this,
-                267,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val notification: Notification =
-            NotificationCompat.Builder(this, CHANNEL_ID)
-                 .setContentTitle(title)
-                 .setContentText(body)
-                .setSmallIcon(R.drawable.icon41)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(
-                    NotificationCompat.BigTextStyle().setSummaryText("summary")
-                        .setBigContentTitle(title).bigText(body)
-                )
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build()
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            return
+            val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
         }
-        NotificationManagerCompat.from(this).notify(Random.nextInt(), notification)
     }
 
+    fun sendHighPriorityNotification(title: String, message: String, activityClass: Class<*>) {
+        val intent = Intent(context, activityClass).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(context!!, CHANNEL_ID)
+            .setSmallIcon(R.drawable.icon31) // Reemplaza con tu icono de notificación
+            .setContentTitle(title)
+            .setContentText(message)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+        Log.d( "NotificationHelper", "sendHighPriorityNotification: " + Random.nextInt(1000))
+
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+            notify(1, notification)
+        }
+    }
 }
