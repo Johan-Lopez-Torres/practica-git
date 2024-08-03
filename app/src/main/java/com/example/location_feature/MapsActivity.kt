@@ -16,6 +16,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.location_feature.model.Message
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
@@ -36,6 +37,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.IOException
 
 
@@ -137,6 +140,11 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         } catch (e: Exception) {
             Log.e(TAG, "Failed to add  johan: ${e.message}")
         }
+
+        val database = FirebaseDatabase.getInstance().reference
+        val message = Message("John", "Hello, world!")
+        database.child("personas").push().setValue(message)
+
 
 
     }

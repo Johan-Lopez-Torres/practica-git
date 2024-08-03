@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.b_notificacion.adapter.notificacionadapter
 import com.example.b_notificacion.model.notificacionesProvider
+import com.example.location_feature.model.Message
 import com.example.location_feature.model.TruckLocation
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
@@ -38,19 +39,28 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
+
+
+
 
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var mMap: GoogleMap
+     lateinit var database: DatabaseReference
 
     companion object {
         private const val TAG = "MainActivity"
@@ -85,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+
         geofencingClient = LocationServices.getGeofencingClient(this)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -93,10 +104,39 @@ class MainActivity : AppCompatActivity() {
             fastestInterval = 2000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+
+
+        val database = FirebaseDatabase.getInstance().reference
+        val message = Message("John", "Hello, world!")
+        database.child("personas").push().setValue(message)
+
+        val db = FirebaseFirestore.getInstance()
+        val cityRef = db.collection("cities").document("LA")
+
+        val data = hashMapOf(
+            "name" to "Los Angeles",
+            "state" to "CA",
+            "country" to "USA"
+        )
+
+        cityRef.set(data)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Datos agregados correctamente")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error al agregar datos", e)
+            }
+
+
+
     }
 
     override fun onStart() {
         super.onStart()
+        FirebaseApp.initializeApp(this)?.let {
+            Log.d(TAG, "Firebase initialized successfully")
+        } ?: Log.e(TAG, "Firebase initialization failed")
+
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -106,14 +146,45 @@ class MainActivity : AppCompatActivity() {
             checkSettingsAndStartLocationUpdates()
             observeCamionLocation()
 
-            val database = Firebase.database
-            val myRef = database.getReference("message")
-            myRef.setValue("Hello, World!")
-            Log.d("realtime", "HOLA MUNDO")
+
+//            val database = Firebase.database
+//            val myRef = database.getReference("message")
+//            myRef.setValue("Hello, World!")
+//                .addOnSuccessListener {
+//                    Log.d(TAG, "Data written successfully!")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.e(TAG, "Failed to write data", e)
+//                }
+//            Log.d("despues", "HOLA MUNDO")
         } else {
             askLocationPermission()
         }
+
+//        // Create a new user with a first and last name
+//        val user = hashMapOf(
+//            "first" to "Ada",
+//            "last" to "Lovelace",
+//            "born" to 1815
+//        )
+//
+//        val db = Firebase.firestore
+//// Add a new document with a generated ID
+//        db.collection("users")
+//            .add(user)
+//            .addOnSuccessListener { documentReference ->
+//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.w(TAG, "Error adding document", e)
+//            }
+
+// ...
+
+
+
     }
+
 
 
 
