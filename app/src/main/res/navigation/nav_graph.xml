@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/comentarios_cuenta">
+    <fragment
+        android:id="@+id/crear_cuenta"
+        android:name="com.example.location_feature.crear_cuenta"
+        android:label="fragment_crear_cuenta"
+        tools:layout="@layout/fragment_crear_cuenta" >
+        <action
+            android:id="@+id/action_crear_cuenta_to_iniciar_sesion"
+            app:destination="@id/iniciar_sesion" />
+    </fragment>
+    <fragment
+        android:id="@+id/comentarios_cuenta"
+        android:name="com.example.location_feature.comentarios_cuenta"
+        android:label="fragment_comentarios_cuenta"
+        tools:layout="@layout/fragment_comentarios_cuenta" >
+        <action
+            android:id="@+id/action_comentarios_cuenta_to_editar_perfil"
+            app:destination="@id/editar_perfil" />
+    </fragment>
+    <fragment
+        android:id="@+id/editar_perfil"
+        android:name="com.example.location_feature.editar_perfil"
+        android:label="fragment_editar_perfil"
+        tools:layout="@layout/fragment_editar_perfil" />
+    <fragment
+        android:id="@+id/iniciar_sesion"
+        android:name="com.example.location_feature.iniciar_sesion"
+        android:label="fragment_iniciar_sesion"
+        tools:layout="@layout/fragment_iniciar_sesion" >
+        <action
+            android:id="@+id/action_iniciar_sesion_to_home_mapa"
+            app:destination="@id/home_mapa" />
+        <action
+            android:id="@+id/action_iniciar_sesion_to_crear_cuenta"
+            app:destination="@id/crear_cuenta" />
+    </fragment>
+    <fragment
+        android:id="@+id/home_mapa"
+        android:name="com.example.location_feature.home_mapa"
+        android:label="fragment_home_mapa"
+        tools:layout="@layout/fragment_home_mapa" >
+        <action
+            android:id="@+id/action_home_mapa_to_calendario_rutas_zonas"
+            app:destination="@id/calendario_rutas_zonas" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendario_rutas_zonas"
+        android:name="com.example.location_feature.calendario_rutas_zonas"
+        android:label="fragment_calendario_rutas_zonas"
+        tools:layout="@layout/fragment_calendario_rutas_zonas" >
+        <action
+            android:id="@+id/action_calendario_rutas_zonas_to_comentarios_cuenta"
+            app:destination="@id/comentarios_cuenta" />
+        <action
+            android:id="@+id/action_calendario_rutas_zonas_to_detail_dialog_calendario_rutas_zonas"
+            app:destination="@id/detail_dialog_calendario_rutas_zonas" />
+    </fragment>
+    <fragment
+        android:id="@+id/detail_dialog_calendario_rutas_zonas"
+        android:name="com.example.location_feature.detail_dialog_calendario_rutas_zonas"
+        android:label="fragment_detail_dialog_calendario_rutas_zonas"
+        tools:layout="@layout/fragment_detail_dialog_calendario_rutas_zonas" />
+</navigation>
