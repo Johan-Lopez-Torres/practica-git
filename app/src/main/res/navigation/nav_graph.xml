@@ -6,7 +6,7 @@
     app:startDestination="@id/comentarios_cuenta">
     <fragment
         android:id="@+id/crear_cuenta"
-        android:name="com.example.location_feature.vistas.crear_cuenta"
+        android:name="com.example.location_feature.view.ui.Fragments.crear_cuenta"
         android:label="fragment_crear_cuenta"
         tools:layout="@layout/fragment_crear_cuenta" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/comentarios_cuenta"
-        android:name="com.example.location_feature.vistas.comentarios_cuenta"
+        android:name="com.example.location_feature.view.ui.Fragments.comentarios_cuenta"
         android:label="fragment_comentarios_cuenta"
         tools:layout="@layout/fragment_comentarios_cuenta" >
         <action
@@ -24,12 +24,12 @@
     </fragment>
     <fragment
         android:id="@+id/editar_perfil"
-        android:name="com.example.location_feature.vistas.editar_perfil"
+        android:name="com.example.location_feature.view.ui.Fragments.editar_perfil"
         android:label="fragment_editar_perfil"
         tools:layout="@layout/fragment_editar_perfil" />
     <fragment
         android:id="@+id/iniciar_sesion"
-        android:name="com.example.location_feature.vistas.iniciar_sesion"
+        android:name="com.example.location_feature.view.ui.Fragments.iniciar_sesion"
         android:label="fragment_iniciar_sesion"
         tools:layout="@layout/fragment_iniciar_sesion" >
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/home_mapa"
-        android:name="com.example.location_feature.vistas.home_mapa"
+        android:name="com.example.location_feature.view.ui.Fragments.home_mapa"
         android:label="fragment_home_mapa"
         tools:layout="@layout/fragment_home_mapa" >
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/detail_dialog_calendario_rutas_zonas"
-        android:name="com.example.location_feature.vistas.detail_dialog_calendario_rutas_zonas"
+        android:name="com.example.location_feature.view.ui.Fragments.detail_dialog_calendario_rutas_zonas"
         android:label="fragment_detail_dialog_calendario_rutas_zonas"
         tools:layout="@layout/fragment_detail_dialog_calendario_rutas_zonas" />
     <fragment
