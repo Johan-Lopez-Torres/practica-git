@@ -11,37 +11,4 @@ data class Conductor(
     var clave: String = "",
     var camionid: String = ""
 
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString()
-    ) {
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(nombres)
-        parcel.writeString(apellidos)
-        parcel.writeString(email)
-        parcel.writeString(clave)
-        parcel.writeString(camionid)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Conductor> {
-        override fun createFromParcel(parcel: Parcel): Conductor {
-            return Conductor(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Conductor?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+)
