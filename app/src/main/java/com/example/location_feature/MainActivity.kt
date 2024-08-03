@@ -27,6 +27,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.b_notificacion.adapter.notificacionadapter
 import com.example.b_notificacion.model.notificacionesProvider
+import com.example.location_feature.model.Horario
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
+import org.json.JSONArray
+import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class MainActivity : AppCompatActivity() {
 
@@ -173,6 +181,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onStop() {
         super.onStop()
         stopLocationUpdates()
@@ -200,7 +209,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-   fun onCreate1(savedInstanceState: Bundle?) {
+
+    fun onCreate1(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_notifecaciones)
         initRecyclerView()
@@ -215,11 +225,13 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.RECYCLERVIEW_Notificaciones)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = notificacionadapter(notificacionesProvider.noticicacionesList)
     }
+
     fun onCreate3(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -238,5 +250,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Botón de retroceso presionado", Toast.LENGTH_SHORT).show()
         }
     }
-
 }
+
