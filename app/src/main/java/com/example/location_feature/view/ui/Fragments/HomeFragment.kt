@@ -1,4 +1,4 @@
-package com.example.location_feature.view.home
+package com.example.location_feature.view.ui.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

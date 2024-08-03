@@ -1,4 +1,5 @@
-package com.esaudev.firebaseyt.presentation.signup
+package com.example.location_feature.view.ui.Fragments
+
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,25 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.esaudev.firebaseyt.R
-import com.esaudev.firebaseyt.databinding.FragmentSignUpBinding
-import com.esaudev.firebaseyt.util.Resource
+import androidx.navigation.fragment.findNavController
+import com.example.location_feature.R
+import com.example.location_feature.databinding.FragmentIniciarSesionBinding
+import com.example.location_feature.util.Resource
+import com.example.location_feature.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.text.Typography.dagger
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class LoginFragment : Fragment() {
 
-    private var _binding: FragmentSignUpBinding? = null
+    private var _binding: FragmentIniciarSesionBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SignUpViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        _binding = FragmentIniciarSesionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,16 +41,11 @@ class SignUpFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.signUpState.observe(viewLifecycleOwner) { state ->
+        viewModel.loginState.observe(viewLifecycleOwner) { state ->
             when(state) {
                 is Resource.Success -> {
                     handleLoading(isLoading = false)
-                    activity?.onBackPressed()
-                    Toast.makeText(
-                        requireContext(),
-                        "Sign up success",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    findNavController().navigate(R.id.action_iniciar_sesion_to_home_mapa)
                 }
                 is Resource.Error -> {
                     handleLoading(isLoading = false)
@@ -64,29 +63,29 @@ class SignUpFragment : Fragment() {
 
     private fun initListeners() {
         with(binding) {
-            bSignUp.setOnClickListener {
-                handleSignUp()
-            }
+            btnLAcceso.setOnClickListener { handleLogin() }
+            btnLRegistrarse.setOnClickListener { findNavController().navigate(R.id.action_iniciar_sesion_to_crear_cuenta) }
         }
     }
 
-    private fun handleSignUp() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
+    private fun handleLogin() {
+        val email = binding.ETLemail.text.toString()
+        val password = binding.ETLpassword.text.toString()
 
-        viewModel.signUp(email, password)
+        viewModel.login(email, password)
     }
 
     private fun handleLoading(isLoading: Boolean) {
         with(binding) {
             if (isLoading) {
-                bSignUp.text = ""
-                bSignUp.isEnabled = false
-                pbSignUp.visibility = View.VISIBLE
+                btnLAcceso.text = ""
+                btnLAcceso.isEnabled = false
+                PBLogin.visibility = View.VISIBLE
+
             } else {
-                pbSignUp.visibility = View.GONE
-                bSignUp.text = getString(R.string.login__signup_button)
-                bSignUp.isEnabled = true
+                PBLogin.visibility = View.GONE
+                btnLAcceso.text = getString(R.string.buttonacceso)
+                btnLAcceso.isEnabled = true
             }
         }
     }

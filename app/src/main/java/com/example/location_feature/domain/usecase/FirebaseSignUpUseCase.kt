@@ -1,4 +1,4 @@
-package com.example.location_feature.domain.usercase
+package com.example.location_feature.domain.usecase
 
 
 import com.example.location_feature.domain.repository.AuthRepository

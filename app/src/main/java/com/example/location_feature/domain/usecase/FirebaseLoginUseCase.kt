@@ -1,4 +1,4 @@
-package com.example.location_feature.domain.usercase
+package com.example.location_feature.domain.usecase
 
 import com.example.location_feature.domain.repository.AuthRepository
 import com.example.location_feature.util.Resource
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FirebaseLoginCase @Inject constructor(
+class FirebaseLoginUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ){
     suspend operator fun invoke(email: String, password: String): Flow<Resource<Boolean>> = flow {

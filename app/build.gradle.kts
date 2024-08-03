@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
     id("com.google.gms.google-services")
+    kotlin("kapt")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -39,6 +41,9 @@ android {
         viewBinding = true
     }
 }
+kapt {
+    correctErrorTypes = true
+}
 
 dependencies {
 
@@ -54,23 +59,32 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 //    implementation("com.google.android.gms:play-services-location:21.3.0")
-    implementation ("com.google.android.gms:play-services-location:17.0.0")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics")
 
 
-
-
-
-
-
-
-
     //implementaciones nuevas
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation ("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+
+    // Dagger - Hilt
+
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
+
+    // For instrumentation tests
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    kaptAndroidTest("com.google.dagger:hilt-compiler:2.51.1")
+
+    // For local unit tests
+    testImplementation("com.google.dagger:hilt-android-testing:2.51.1")
+    kaptTest("com.google.dagger:hilt-compiler:2.51.1")
+
 
 }
+
