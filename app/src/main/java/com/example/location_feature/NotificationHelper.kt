@@ -31,22 +31,23 @@ class NotificationHelper(private val context: Context?) {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = CHANNEL_DESC
-                enableLights(true)
-                lightColor = Color.RED
-                enableVibration(true)
-                setSound(Settings.System.DEFAULT_NOTIFICATION_URI, Notification.AUDIO_ATTRIBUTES_DEFAULT)
-            }
-
-            val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = CHANNEL_DESC
+            enableLights(true)
+            lightColor = Color.RED
+            enableVibration(true)
+            setSound(
+                Settings.System.DEFAULT_NOTIFICATION_URI,
+                Notification.AUDIO_ATTRIBUTES_DEFAULT
+            )
         }
+        Log.d("sonido", "createNotificationChannel:")
+        val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
     }
 
     fun sendHighPriorityNotification(title: String, message: String, activityClass: Class<*>) {
@@ -69,7 +70,7 @@ class NotificationHelper(private val context: Context?) {
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
-        Log.d( "NotificationHelper", "sendHighPriorityNotification: " + Random.nextInt(1000))
+        Log.d("NotificationHelper", "sendHighPriorityNotification: " + Random.nextInt(1000))
 
         with(NotificationManagerCompat.from(context)) {
             if (ActivityCompat.checkSelfPermission(

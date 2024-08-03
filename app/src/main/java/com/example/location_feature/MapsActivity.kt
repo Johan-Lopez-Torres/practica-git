@@ -77,6 +77,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         private val FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
         private const val LATITUDE = -9.117115
         private const val LONGITUDE = -78.515878
+
         private const val LOCATION_REQUEST_CODE = 10001
     }
 
