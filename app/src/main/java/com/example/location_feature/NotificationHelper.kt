@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -37,6 +38,10 @@ class NotificationHelper(private val context: Context?) {
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = CHANNEL_DESC
+                enableLights(true)
+                lightColor = Color.RED
+                enableVibration(true)
+                setSound(Settings.System.DEFAULT_NOTIFICATION_URI, Notification.AUDIO_ATTRIBUTES_DEFAULT)
             }
 
             val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

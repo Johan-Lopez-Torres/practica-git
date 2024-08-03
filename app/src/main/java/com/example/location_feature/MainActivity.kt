@@ -54,31 +54,16 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
 
-
-
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private var locationRequest: LocationRequest? = null
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var mMap: GoogleMap
-     lateinit var database: DatabaseReference
 
     companion object {
-        private const val TAG = "MainActivity"
-        private const val LATITUDE = -9.117083
-        private const val LONGITUDE = -78.515884
-        private const val RADIUS = 100f
+        const val TAG = "MainActivity"
         private const val LOCATION_REQUEST_CODE = 10001
     }
 
-    private val geofencePendingIntent by lazy {
-        val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
-        PendingIntent.getBroadcast(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
 
 
     var locationCallback: LocationCallback = object : LocationCallback() {
@@ -105,30 +90,6 @@ class MainActivity : AppCompatActivity() {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
-
-        val database = FirebaseDatabase.getInstance().reference
-        val message = Message("John", "Hello, world!")
-        database.child("personas").push().setValue(message)
-
-        val db = FirebaseFirestore.getInstance()
-        val cityRef = db.collection("cities").document("LA")
-
-        val data = hashMapOf(
-            "name" to "Los Angeles",
-            "state" to "CA",
-            "country" to "USA"
-        )
-
-        cityRef.set(data)
-            .addOnSuccessListener {
-                Log.d("Firestore", "Datos agregados correctamente")
-            }
-            .addOnFailureListener { e ->
-                Log.e("Firestore", "Error al agregar datos", e)
-            }
-
-
-
     }
 
     override fun onStart() {
@@ -146,41 +107,9 @@ class MainActivity : AppCompatActivity() {
             checkSettingsAndStartLocationUpdates()
             observeCamionLocation()
 
-
-//            val database = Firebase.database
-//            val myRef = database.getReference("message")
-//            myRef.setValue("Hello, World!")
-//                .addOnSuccessListener {
-//                    Log.d(TAG, "Data written successfully!")
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.e(TAG, "Failed to write data", e)
-//                }
-//            Log.d("despues", "HOLA MUNDO")
         } else {
             askLocationPermission()
         }
-
-//        // Create a new user with a first and last name
-//        val user = hashMapOf(
-//            "first" to "Ada",
-//            "last" to "Lovelace",
-//            "born" to 1815
-//        )
-//
-//        val db = Firebase.firestore
-//// Add a new document with a generated ID
-//        db.collection("users")
-//            .add(user)
-//            .addOnSuccessListener { documentReference ->
-//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-//            }
-//            .addOnFailureListener { e ->
-//                Log.w(TAG, "Error adding document", e)
-//            }
-
-// ...
-
 
 
     }

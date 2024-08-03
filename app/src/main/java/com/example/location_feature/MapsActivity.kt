@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.location_feature.model.Message
+import com.example.location_feature.model.TruckLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
@@ -37,8 +38,14 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.io.IOException
 
 
@@ -91,8 +98,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         mapFragment?.getMapAsync(this)
 
 
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.create().apply {
             interval = 500
@@ -100,42 +105,10 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
-        //GEOFENCE CODE
 
-//        val geofence = Geofence.Builder()
-//            .setRequestId("geofence_id")
-//            .setCircularRegion(
-//                LATITUDE,
-//                LONGITUDE,
-//                RADIUS
-//            )
-//            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-//            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
-//            .build()
-//
-//        val geofencingRequest = GeofencingRequest.Builder()
-//            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-//            .addGeofence(geofence)
-//            .build()
-//
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//
-//            return
-//        }
-//        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)
-//            .addOnSuccessListener {
-//                Log.d(TAG, "onCreate: Geofence added")
-//            }
-//            .addOnFailureListener {
-//                Log.d(TAG, "onCreate: Geofence not added")
-//            }
         Log.d(TAG, "Trying to add a geofence")
         try {
-            addGeofence(LatLng(-9.11708, -78.515884), RADIUS)
+            addGeofence(LatLng(LATITUDE, LONGITUDE), RADIUS)
             Log.d(TAG, "Tuviste exito geofence" )
         } catch (e: Exception) {
             Log.e(TAG, "Failed to add  johan: ${e.message}")
@@ -147,7 +120,75 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
 
 
+        // Write a message to the database
+        val database2 = Firebase.database
+        val myRef = database2.getReference("message")
+        myRef.setValue("AGOSTO")
+
+
+
+
+        val user = hashMapOf(
+            "first" to "Ada",
+            "last" to "Lovelace",
+            "born" to 1815
+        )
+
+
+
+
     }
+
+
+
+    //FUNCIONES DE FIREBASE REALTIME DATABASE
+    private fun updateCamionLocation(location: Location) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("camion")
+
+        val camionLocation = TruckLocation(
+            latitude = location.latitude,
+            longitude = location.longitude
+        )
+
+        myRef.setValue(camionLocation).addOnSuccessListener {
+            Log.d(MainActivity.TAG, "Ubicación actualizada en Firebase")
+        }.addOnFailureListener {
+            Log.e(MainActivity.TAG, "Error al actualizar la ubicación en Firebase", it)
+        }
+    }
+
+
+    private fun observeCamionLocation() {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("camion")
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val camionLocation = snapshot.getValue(TruckLocation::class.java)
+
+                if (camionLocation != null) {
+                    updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(MainActivity.TAG, "Error al leer la ubicación del camión", error.toException())
+            }
+        })
+    }
+
+
+    private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
+        val camionLocation = LatLng(latitude, longitude)
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(camionLocation).title("Camión de basura"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
+    }
+
+
+
+
 
 
     override fun onStart() {
@@ -171,7 +212,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         mMap.setOnMapLongClickListener(this)
         mMap.setOnMarkerDragListener(this)
 
-        //            LatLng( -9.11708, -78.515884)
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
