@@ -23,7 +23,7 @@
     <string name="textolvidepassword">¿Has olvidado tu contraseña?</string>
     <string name="textocrea">Crea tu </string>
     <string name="textocuenta">Cuenta</string>
-    <string name = "editarperfil">Editar Usuario</string>
+    <string name="editarperfil">Editar Usuario</string>
 
     <!-- Edits -->
     <string name="editname">Nombre</string>
@@ -55,5 +55,7 @@
     <string name="cambiar_contra">Cambiar Contraseña</string>
     <string name="num">Numero</string>
     <string name="butonback">butonback</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
