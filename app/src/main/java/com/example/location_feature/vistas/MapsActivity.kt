@@ -1,4 +1,4 @@
-package com.example.location_feature
+package com.example.location_feature.vistas
 
 import android.Manifest
 import android.annotation.SuppressLint
