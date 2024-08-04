@@ -8,32 +8,20 @@
     tools:context=".view.ui.MainActivity"
     android:background="@color/white">
     <!-- context en el layout ^ -->
-    <ImageButton
-        android:id="@+id/btnL_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="45dp"
-        android:background="@drawable/shape_regresar"
-        android:contentDescription="@string/buttonback"
-        android:padding="15dp"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/TVLiniciosesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="70dp"
         android:paddingStart="4dp"
         android:text="@string/textologin"
         android:textColor="@color/darkblue"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnL_back"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
 

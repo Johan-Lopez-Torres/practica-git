@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "93451503607",
-    "project_id": "trash-track-producto",
-    "storage_bucket": "trash-track-producto.appspot.com"
+    "project_number": "533132847795",
+    "project_id": "login-register-1fd7b",
+    "storage_bucket": "login-register-1fd7b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:93451503607:android:3a7228159bc377a0ba90f2",
+        "mobilesdk_app_id": "1:533132847795:android:eb53f5b01facec478f1ec6",
         "android_client_info": {
           "package_name": "com.example.location_feature"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1lPAGn1zXQksGQPBWULmNbKefyhsoe5E"
+          "current_key": "AIzaSyCa8NCXSb1vM6EBDFAG8VHBUwh9FKFI4zw"
         }
       ],
       "services": {

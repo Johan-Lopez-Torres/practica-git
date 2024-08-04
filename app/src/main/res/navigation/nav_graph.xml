@@ -6,7 +6,7 @@
     app:startDestination="@id/comentarios_cuenta">
     <fragment
         android:id="@+id/crear_cuenta"
-        android:name="com.example.location_feature.view.ui.Fragments.crear_cuenta"
+        android:name="com.example.location_feature.view.ui.Fragments.Crear_cuenta"
         android:label="fragment_crear_cuenta"
         tools:layout="@layout/fragment_crear_cuenta" >
         <action
@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_editar_perfil" />
     <fragment
         android:id="@+id/iniciar_sesion"
-        android:name="com.example.location_feature.view.ui.Fragments.iniciar_sesion"
+        android:name="com.example.location_feature.view.ui.Fragments.Iniciar_sesion"
         android:label="fragment_iniciar_sesion"
         tools:layout="@layout/fragment_iniciar_sesion" >
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/calendario_rutas_zonas"
-        android:name="com.example.location_feature.calendario_rutas_zonas"
+        android:name="com.example.location_feature.view.ui.Fragments.calendario_rutas_zonas"
         android:label="fragment_calendario_rutas_zonas"
         tools:layout="@layout/fragment_calendario_rutas_zonas" >
         <action
@@ -65,9 +65,5 @@
         android:name="com.example.location_feature.view.ui.Fragments.detail_dialog_calendario_rutas_zonas"
         android:label="fragment_detail_dialog_calendario_rutas_zonas"
         tools:layout="@layout/fragment_detail_dialog_calendario_rutas_zonas" />
-    <fragment
-        android:id="@+id/sauron_sa"
-        android:name="com.example.location_feature.sauron_sa"
-        android:label="fragment_sauron_sa"
-        tools:layout="@layout/fragment_sauron_sa" />
+
 </navigation>

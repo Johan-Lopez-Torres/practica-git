@@ -15,7 +15,7 @@ import com.example.location_feature.viewModel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class Crear_cuenta : Fragment() {
 
     private var _binding: FragmentCrearCuentaBinding? = null
     private val binding get() = _binding!!

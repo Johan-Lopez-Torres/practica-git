@@ -14,10 +14,9 @@ import com.example.location_feature.databinding.FragmentIniciarSesionBinding
 import com.example.location_feature.util.Resource
 import com.example.location_feature.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.text.Typography.dagger
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class Iniciar_sesion : Fragment() {
 
     private var _binding: FragmentIniciarSesionBinding? = null
     private val binding get() = _binding!!

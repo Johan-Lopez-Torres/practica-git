@@ -73,18 +73,19 @@ dependencies {
 
 
     // Dagger - Hilt
-
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-compiler:2.51.1")
-
-    // For instrumentation tests
+        // For instrumentation tests
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.51.1")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.51.1")
-
-    // For local unit tests
+        // For local unit tests
     testImplementation("com.google.dagger:hilt-android-testing:2.51.1")
     kaptTest("com.google.dagger:hilt-compiler:2.51.1")
 
-
+    //Coroutines - Firebase
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 }
+
+
+
 
