@@ -9,7 +9,6 @@
     android:background="#ffffff"
 
     >
-
     <ImageView
         android:id="@+id/image_view_comentarios"
         android:layout_width="450dp"
