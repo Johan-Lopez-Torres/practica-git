@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/comentarios_cuenta">
+    app:startDestination="@id/iniciar_sesion">
     <fragment
         android:id="@+id/crear_cuenta"
-        android:name="com.example.location_feature.view.ui.Fragments.Crear_cuenta"
+        android:name="com.example.location_feature.view.ui.Fragments.SignUpFragment"
         android:label="fragment_crear_cuenta"
         tools:layout="@layout/fragment_crear_cuenta" >
         <action
@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_editar_perfil" />
     <fragment
         android:id="@+id/iniciar_sesion"
-        android:name="com.example.location_feature.view.ui.Fragments.Iniciar_sesion"
+        android:name="com.example.location_feature.view.ui.Fragments.LoginFragment"
         android:label="fragment_iniciar_sesion"
         tools:layout="@layout/fragment_iniciar_sesion" >
         <action

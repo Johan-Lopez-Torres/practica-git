@@ -12,26 +12,21 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
 
     override suspend fun login(email: String, password: String): Boolean {
         return try {
-            var isSuccessful: Boolean = false
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { isSuccessful = true }
-                .addOnFailureListener { isSuccessful = false }
-                .await()
-            isSuccessful
+            firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            true
         } catch (e: Exception) {
-            Log.d("test", e.toString())
+            Log.e("FirebaseAuth", "Login error: ${e.localizedMessage}", e)
             false
         }
     }
 
     override suspend fun signUp(email: String, password: String): Boolean {
         return try {
-            var isSuccessful: Boolean = false
             firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { isSuccessful = it.isSuccessful}
                 .await()
-            isSuccessful
+            true
         } catch (e: Exception) {
+            Log.e("FirebaseAuth", "SignUp error: ${e.message}", e)
             false
         }
     }

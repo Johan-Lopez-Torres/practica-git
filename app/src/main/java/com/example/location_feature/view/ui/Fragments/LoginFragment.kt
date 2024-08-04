@@ -16,7 +16,7 @@ import com.example.location_feature.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Iniciar_sesion : Fragment() {
+class LoginFragment : Fragment() {
 
     private var _binding: FragmentIniciarSesionBinding? = null
     private val binding get() = _binding!!
