@@ -143,6 +143,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         ) {
             Log.d(TAG, "onStart: permission granted")
             startLocationUpdates()
+
         }
     }
 
@@ -183,11 +184,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             }
         }
     }
-
-
-
-
-
 
 
 
@@ -270,14 +266,26 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     }
 
 
-    private val locationCallback = object : LocationCallback() {
+//    private val locationCallback = object : LocationCallback() {
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            super.onLocationResult(locationResult)
+//            Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
+//            locationResult.lastLocation?.let { setUserLocationMarker(it) }
+//        }
+//    }
+
+
+    private val locationCallback2 = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
             Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
-            locationResult.lastLocation?.let { setUserLocationMarker(it) }
+            locationResult.lastLocation?.let {
+                // Actualiza la ubicación del camión
+                setUserLocationMarker(it)
+                updateCamionLocation(it)
+            }
         }
     }
-
 
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
@@ -324,14 +332,14 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         }
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,
-            locationCallback,
+            locationCallback2,
             Looper.getMainLooper()
         )
 
     }
 
     private fun stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback2)
     }
 
 
