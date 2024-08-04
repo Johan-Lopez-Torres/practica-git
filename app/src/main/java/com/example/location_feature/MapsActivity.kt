@@ -64,6 +64,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private lateinit var geocoder: Geocoder
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var geofenceHelper: GeofenceHelper
+    private val isDriver: Boolean = false // Cambia esto según sea necesario
 
 
     companion object {
@@ -118,17 +119,18 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         database.child("personas").push().setValue(message)
 
 
-        // Write a message to the database
+
         val database2 = Firebase.database
         val myRef = database2.getReference("message")
         myRef.setValue("AGOSTO")
 
 
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
+
+
+        if (!isDriver) {
+
+            observeCamionLocation()
+        }
 
 
     }
@@ -236,15 +238,19 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
     private fun observeCamionLocation() {
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("camion")
+        val myRef = database.reference.child("camion")
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val camionLocation = snapshot.getValue(TruckLocation::class.java)
 
                 if (camionLocation != null) {
+                    Log.d(TAG, "Ubicación del camión: $camionLocation")
                     updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
+                }else{
+                    Log.d(TAG, "No se encontró la ubicación del camión")
                 }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -261,7 +267,12 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
         val camionLocation = LatLng(latitude, longitude)
         mMap.clear()
-        mMap.addMarker(MarkerOptions().position(camionLocation).title("Camión de basura"))
+        mMap.addMarker(
+            MarkerOptions()
+                .position(camionLocation)
+                .title("Camión de basura")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar)) // Asegúrate de tener el recurso adecuado
+        )
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
     }
 
@@ -280,20 +291,25 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             super.onLocationResult(locationResult)
             Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
             locationResult.lastLocation?.let {
-                // Actualiza la ubicación del camión
-                setUserLocationMarker(it)
-                updateCamionLocation(it)
+                if (isDriver) {
+                    // Actualiza solo la ubicación del usuario
+                    setUserLocationMarker(it)
+                    updateCamionLocation(it)
+                }else
+                    setUserLocationMarker(it)
             }
         }
     }
 
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
+        val iconRes = if (isDriver) R.drawable.redcar else R.drawable.persona // Cambia los recursos según corresponda
+
 
         if (userLocationMarker == null) {
             val markerOptions = MarkerOptions()
                 .position(latLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar))
+                .icon(BitmapDescriptorFactory.fromResource(iconRes))
                 .rotation(location.bearing)
                 .anchor(0.5f, 0.5f)
             userLocationMarker = mMap.addMarker(markerOptions)
@@ -357,29 +373,29 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         mMap.isMyLocationEnabled = true
     }
 
-//    private fun zoomToUserLocation() {
-//        if (ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                this,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            return
-//        }
-//
-//        val locationTask: Task<Location> = fusedLocationProviderClient.lastLocation
-//        fusedLocationProviderClient.lastLocation
-//        locationTask.addOnSuccessListener { location ->
-//            val latLng = LatLng(location.latitude, location.longitude)
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
-//            Log.d(TAG, "FUNCIONO CORRECTAMENTE")
-//        }
-//        locationTask.addOnFailureListener {
-//            Log.d(TAG, "ERROR PARA EL ZOOM")
-//        }
-//    }
+    private fun zoomToUserLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        val locationTask: Task<Location> = fusedLocationProviderClient.lastLocation
+        fusedLocationProviderClient.lastLocation
+        locationTask.addOnSuccessListener { location ->
+            val latLng = LatLng(location.latitude, location.longitude)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
+            Log.d(TAG, "FUNCIONO CORRECTAMENTE")
+        }
+        locationTask.addOnFailureListener {
+            Log.d(TAG, "ERROR PARA EL ZOOM")
+        }
+    }
 
 
     override fun onMarkerDragStart(marker: Marker) {

@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         ) {
 //            getLastLocation();
             checkSettingsAndStartLocationUpdates()
-            observeCamionLocation()
+//            observeCamionLocation()
         } else {
             askLocationPermission()
         }
@@ -117,49 +117,49 @@ class MainActivity : AppCompatActivity() {
 
 
     //FUNCIONES DE FIREBASE REALTIME DATABASE
-    private fun updateCamionLocation(location: Location) {
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("camion")
-
-        val camionLocation = TruckLocation(
-            latitude = location.latitude,
-            longitude = location.longitude
-        )
-
-        myRef.setValue(camionLocation).addOnSuccessListener {
-            Log.d(TAG, "Ubicación actualizada en Firebase")
-        }.addOnFailureListener {
-            Log.e(TAG, "Error al actualizar la ubicación en Firebase", it)
-        }
-    }
-
-
-    private fun observeCamionLocation() {
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("camion")
-
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val camionLocation = snapshot.getValue(TruckLocation::class.java)
-
-                if (camionLocation != null) {
-                    updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Error al leer la ubicación del camión", error.toException())
-            }
-        })
-    }
-
-
-    private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
-        val camionLocation = LatLng(latitude, longitude)
-        mMap.clear()
-        mMap.addMarker(MarkerOptions().position(camionLocation).title("Camión de basura"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
-    }
+//    private fun updateCamionLocation(location: Location) {
+//        val database = FirebaseDatabase.getInstance()
+//        val myRef = database.getReference("camion")
+//
+//        val camionLocation = TruckLocation(
+//            latitude = location.latitude,
+//            longitude = location.longitude
+//        )
+//
+//        myRef.setValue(camionLocation).addOnSuccessListener {
+//            Log.d(TAG, "Ubicación actualizada en Firebase")
+//        }.addOnFailureListener {
+//            Log.e(TAG, "Error al actualizar la ubicación en Firebase", it)
+//        }
+//    }
+//
+//
+//    private fun observeCamionLocation() {
+//        val database = FirebaseDatabase.getInstance()
+//        val myRef = database.getReference("camion")
+//
+//        myRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val camionLocation = snapshot.getValue(TruckLocation::class.java)
+//
+//                if (camionLocation != null) {
+//                    updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.e(TAG, "Error al leer la ubicación del camión", error.toException())
+//            }
+//        })
+//    }
+//
+//
+//    private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
+//        val camionLocation = LatLng(latitude, longitude)
+//        mMap.clear()
+//        mMap.addMarker(MarkerOptions().position(camionLocation).title("Camión de basura"))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
+//    }
 
 
 
@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "onSuccess: " + location.toString())
                 Log.d(TAG, "onSuccess: latitud " + location.getLatitude())
                 Log.d(TAG, "onSuccess: longitud " + location.getLongitude())
-                updateCamionLocation(location)
+//                updateCamionLocation(location)
             } else {
                 Log.d(TAG, "onSuccess: Location was null...")
             }
