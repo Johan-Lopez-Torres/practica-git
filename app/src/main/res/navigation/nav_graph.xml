@@ -45,29 +45,24 @@
         android:label="fragment_home_mapa"
         tools:layout="@layout/fragment_home_mapa" >
         <action
-            android:id="@+id/action_home_mapa_to_calendario_rutas_zonas"
-            app:destination="@id/calendario_rutas_zonas" />
+            android:id="@+id/action_home_mapa_to_calendario"
+            app:destination="@id/calendario" />
     </fragment>
     <fragment
-        android:id="@+id/calendario_rutas_zonas"
-        android:name="com.example.location_feature.calendario_rutas_zonas"
-        android:label="fragment_calendario_rutas_zonas"
-        tools:layout="@layout/fragment_calendario_rutas_zonas" >
+        android:id="@+id/calendario"
+        android:name="com.example.location_feature.vistas.Calendario"
+        android:label="fragment_calendario"
+        tools:layout="@layout/fragment_calendario" >
         <action
-            android:id="@+id/action_calendario_rutas_zonas_to_comentarios_cuenta"
+            android:id="@+id/action_calendario_to_comentarios_cuenta"
             app:destination="@id/comentarios_cuenta" />
         <action
-            android:id="@+id/action_calendario_rutas_zonas_to_detail_dialog_calendario_rutas_zonas"
-            app:destination="@id/detail_dialog_calendario_rutas_zonas" />
+            android:id="@+id/action_calendario_to_detail_dialog_calendario"
+            app:destination="@id/detail_dialog_calendario" />
     </fragment>
     <fragment
-        android:id="@+id/detail_dialog_calendario_rutas_zonas"
-        android:name="com.example.location_feature.vistas.detail_dialog_calendario_rutas_zonas"
-        android:label="fragment_detail_dialog_calendario_rutas_zonas"
-        tools:layout="@layout/fragment_detail_dialog_calendario_rutas_zonas" />
-    <fragment
-        android:id="@+id/sauron_sa"
-        android:name="com.example.location_feature.sauron_sa"
-        android:label="fragment_sauron_sa"
-        tools:layout="@layout/fragment_sauron_sa" />
+        android:id="@+id/detail_dialog_calendario"
+        android:name="com.example.location_feature.vistas.detail_dialog_calendario"
+        android:label="fragment_detail_dialog_calendario"
+        tools:layout="@layout/fragment_detail_dialog_calendario" />
 </navigation>
