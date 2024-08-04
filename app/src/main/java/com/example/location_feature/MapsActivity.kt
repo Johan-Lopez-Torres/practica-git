@@ -53,7 +53,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     GoogleMap.OnMarkerDragListener {
 
 
-
     //VARIABLES DE MAPAS
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -68,7 +67,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
 
     companion object {
-        private val GEOFENCE_RADIUS = 200f
         private val GEOFENCE_ID = "SOME_GEOFENCE_ID"
         private val BACKGROUND_LOCATION_ACCESS_REQUEST_CODE = 10002
         private val ACCESS_LOCATION_REQUEST_CODE = 10001
@@ -77,7 +75,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         private val FINE_LOCATION_ACCESS_REQUEST_CODE = 10001
         private const val LATITUDE = -9.117115
         private const val LONGITUDE = -78.515878
-
+        private const val isDriver: Boolean = true
         private const val LOCATION_REQUEST_CODE = 10001
     }
 
@@ -110,7 +108,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         Log.d(TAG, "Trying to add a geofence")
         try {
             addGeofence(LatLng(LATITUDE, LONGITUDE), RADIUS)
-            Log.d(TAG, "Tuviste exito geofence" )
+            Log.d(TAG, "Tuviste exito geofence")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to add  johan: ${e.message}")
         }
@@ -120,13 +118,10 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         database.child("personas").push().setValue(message)
 
 
-
         // Write a message to the database
         val database2 = Firebase.database
         val myRef = database2.getReference("message")
         myRef.setValue("AGOSTO")
-
-
 
 
         val user = hashMapOf(
@@ -136,9 +131,92 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         )
 
 
-
-
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "onStart: permission granted")
+            startLocationUpdates()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopLocationUpdates()
+    }
+
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        Log.d(TAG, "Map is ready")
+        mMap = googleMap
+        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+        mMap.setOnMapLongClickListener(this)
+        mMap.setOnMarkerDragListener(this)
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+//            enableUserLocation()
+//            zoomToUserLocation()
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                Log.d(TAG, "onMapReady: Should show request permission rationale")
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    ACCESS_LOCATION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    override fun onMapLongClick(p0: LatLng) {
+//        if (ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            Log.d(TAG, "Hola onMapLongClick: " + p0.latitude + ", " + p0.longitude)
+//            handleMapLongClick(p0)
+//        } else {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                    this,
+//                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//                )
+//            ) {
+//                Log.d(TAG, "onMapLongClick: Should show request permission rationale")
+//            } else {
+//                ActivityCompat.requestPermissions(
+//                    this,
+//                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+//                    BACKGROUND_LOCATION_ACCESS_REQUEST_CODE
+//                )
+//            }
+//        }
+    }
+
 
 
 
@@ -174,7 +252,11 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e(MainActivity.TAG, "Error al leer la ubicación del camión", error.toException())
+                Log.e(
+                    MainActivity.TAG,
+                    "Error al leer la ubicación del camión",
+                    error.toException()
+                )
             }
         })
     }
@@ -188,57 +270,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     }
 
 
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d(TAG, "onStart: permission granted")
-            startLocationUpdates()
-        }
-    }
-
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        Log.d(TAG, "Map is ready")
-        mMap = googleMap
-        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-
-        mMap.setOnMapLongClickListener(this)
-        mMap.setOnMarkerDragListener(this)
-
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-             enableUserLocation()
-             zoomToUserLocation()
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-                Log.d(TAG, "onMapReady: Should show request permission rationale")
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    ACCESS_LOCATION_REQUEST_CODE
-                )
-            }
-        }
-
-
-    }
-
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
@@ -246,6 +277,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             locationResult.lastLocation?.let { setUserLocationMarker(it) }
         }
     }
+
 
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
@@ -264,18 +296,18 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
         }
 
-        if (userLocationAccuracyCircle == null) {
-            val circleOptions = CircleOptions()
-                .center(latLng)
-                .strokeWidth(4f)
-                .strokeColor(Color.argb(255, 255, 0, 0))
-                .fillColor(Color.argb(32, 255, 0, 0))
-                .radius(location.accuracy.toDouble())
-            userLocationAccuracyCircle = mMap.addCircle(circleOptions)
-        } else {
-            userLocationAccuracyCircle!!.center = latLng
-            userLocationAccuracyCircle!!.radius = location.accuracy.toDouble()
-        }
+//        if (userLocationAccuracyCircle == null) {
+//            val circleOptions = CircleOptions()
+//                .center(latLng)
+//                .strokeWidth(4f)
+//                .strokeColor(Color.argb(255, 255, 0, 0))
+//                .fillColor(Color.argb(32, 255, 0, 0))
+//                .radius(location.accuracy.toDouble())
+//            userLocationAccuracyCircle = mMap.addCircle(circleOptions)
+//        } else {
+//            userLocationAccuracyCircle!!.center = latLng
+//            userLocationAccuracyCircle!!.radius = location.accuracy.toDouble()
+//        }
     }
 
 
@@ -303,11 +335,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     }
 
 
-    override fun onStop() {
-        super.onStop()
-        stopLocationUpdates()
-    }
-
     private fun enableUserLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -322,50 +349,30 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         mMap.isMyLocationEnabled = true
     }
 
-    private fun zoomToUserLocation() {
-        val locationTask: Task<Location> = fusedLocationProviderClient.lastLocation
+//    private fun zoomToUserLocation() {
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            return
+//        }
+//
+//        val locationTask: Task<Location> = fusedLocationProviderClient.lastLocation
+//        fusedLocationProviderClient.lastLocation
+//        locationTask.addOnSuccessListener { location ->
+//            val latLng = LatLng(location.latitude, location.longitude)
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
+//            Log.d(TAG, "FUNCIONO CORRECTAMENTE")
+//        }
+//        locationTask.addOnFailureListener {
+//            Log.d(TAG, "ERROR PARA EL ZOOM")
+//        }
+//    }
 
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        fusedLocationProviderClient.lastLocation
-        locationTask.addOnSuccessListener { location ->
-            val latLng = LatLng(location.latitude, location.longitude)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f))
-        }
-    }
-
-    override fun onMapLongClick(p0: LatLng) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d(TAG, "Hola onMapLongClick: " + p0.latitude + ", " + p0.longitude)
-            handleMapLongClick(p0)
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-            ) {
-                Log.d(TAG, "onMapLongClick: Should show request permission rationale")
-            } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    BACKGROUND_LOCATION_ACCESS_REQUEST_CODE
-                )
-            }
-        }
-    }
 
     override fun onMarkerDragStart(marker: Marker) {
         Log.d(TAG, "onMarkerDragStart: ")
@@ -375,22 +382,23 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         Log.d(TAG, "onMarkerDrag: ")
     }
 
+
     override fun onMarkerDragEnd(marker: Marker) {
-        Log.d(TAG, "onMarkerDragEnd: ")
-        val latLng = marker.position
-        try {
-            val addresses: MutableList<Address>? =
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null) {
-                if (addresses.isNotEmpty()) {
-                    val address: Address = addresses.get(0)
-                    val streetAddress = address.getAddressLine(0)
-                    marker.title = streetAddress
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+//        Log.d(TAG, "onMarkerDragEnd: ")
+//        val latLng = marker.position
+//        try {
+//            val addresses: MutableList<Address>? =
+//                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+//            if (addresses != null) {
+//                if (addresses.isNotEmpty()) {
+//                    val address: Address = addresses.get(0)
+//                    val streetAddress = address.getAddressLine(0)
+//                    marker.title = streetAddress
+//                }
+//            }
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
     }
 
     override fun onRequestPermissionsResult(
@@ -401,8 +409,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == ACCESS_LOCATION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableUserLocation()
-                zoomToUserLocation()
+//                enableUserLocation()
+//                zoomToUserLocation()
             } else {
                 Log.d(TAG, "onRequestPermissionsResult: permission denied")
             }
@@ -410,28 +418,27 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     }
 
 
-    private fun handleMapLongClick(latLng: LatLng) {
-        mMap.clear()
-        addMarker(latLng)
-        addCircle(latLng, GEOFENCE_RADIUS)
-        addGeofence(latLng, GEOFENCE_RADIUS)
-    }
-
-
-    private fun addMarker(latLng: LatLng) {
-        val markerOptions = MarkerOptions().position(latLng)
-        mMap.addMarker(markerOptions)
-    }
-
-    private fun addCircle(latLng: LatLng, radius: Float) {
-        val circleOptions = CircleOptions()
-        circleOptions.center(latLng)
-        circleOptions.radius(radius.toDouble())
-        circleOptions.strokeColor(Color.argb(255, 255, 0, 0))
-        circleOptions.fillColor(Color.argb(64, 255, 0, 0))
-        circleOptions.strokeWidth(4f)
-        mMap.addCircle(circleOptions)
-    }
+//    private fun addMarker(latLng: LatLng) {
+//        val markerOptions = MarkerOptions().position(latLng)
+//        mMap.addMarker(markerOptions)
+//    }
+//
+//    private fun addCircle(latLng: LatLng, radius: Float) {
+//        val circleOptions = CircleOptions()
+//        circleOptions.center(latLng)
+//        circleOptions.radius(radius.toDouble())
+//        circleOptions.strokeColor(Color.argb(255, 255, 0, 0))
+//        circleOptions.fillColor(Color.argb(64, 255, 0, 0))
+//        circleOptions.strokeWidth(4f)
+//        mMap.addCircle(circleOptions)
+//    }
+//
+//    private fun handleMapLongClick(latLng: LatLng) {
+//        mMap.clear()
+//        addMarker(latLng)
+//        addCircle(latLng, GEOFENCE_RADIUS)
+//        addGeofence(latLng, GEOFENCE_RADIUS)
+//    }
 
     @SuppressLint("VisibleForTests")
     private fun addGeofence(latLng: LatLng, radius: Float) {

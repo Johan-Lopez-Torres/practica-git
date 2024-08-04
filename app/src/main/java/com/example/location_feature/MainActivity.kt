@@ -106,7 +106,6 @@ class MainActivity : AppCompatActivity() {
 //            getLastLocation();
             checkSettingsAndStartLocationUpdates()
             observeCamionLocation()
-
         } else {
             askLocationPermission()
         }
