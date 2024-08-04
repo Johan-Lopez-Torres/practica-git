@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/comentarios_cuenta">
+    app:startDestination="@id/iniciar_sesion">
     <fragment
         android:id="@+id/crear_cuenta"
         android:name="com.example.location_feature.view.ui.Fragments.crear_cuenta"
@@ -65,9 +65,4 @@
         android:name="com.example.location_feature.view.ui.Fragments.detail_dialog_calendario_rutas_zonas"
         android:label="fragment_detail_dialog_calendario_rutas_zonas"
         tools:layout="@layout/fragment_detail_dialog_calendario_rutas_zonas" />
-    <fragment
-        android:id="@+id/sauron_sa"
-        android:name="com.example.location_feature.sauron_sa"
-        android:label="fragment_sauron_sa"
-        tools:layout="@layout/fragment_sauron_sa" />
 </navigation>
