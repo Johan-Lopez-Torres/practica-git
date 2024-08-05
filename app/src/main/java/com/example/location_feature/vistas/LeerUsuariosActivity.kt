@@ -1,5 +1,6 @@
 package com.example.location_feature
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.adapter.UsuariosAdapter
 import com.example.location_feature.model.Usuarios
-import com.example.location_feature.vistas.EditarUsuariosActivity
 
 class LeerUsuariosActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView

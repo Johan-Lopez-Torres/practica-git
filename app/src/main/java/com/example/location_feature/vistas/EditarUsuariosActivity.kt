@@ -1,4 +1,4 @@
-package com.example.location_feature.vistas
+package com.example.location_feature
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -74,3 +74,4 @@ class EditarUsuariosActivity : AppCompatActivity() {
         }
     }
 }
+

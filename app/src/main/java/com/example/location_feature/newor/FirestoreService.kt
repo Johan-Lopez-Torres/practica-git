@@ -1,5 +1,6 @@
 package com.example.ecoferia.network
 
+
 import com.example.location_feature.model.Usuarios
 import com.example.location_feature.newor.Callback
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,3 +63,22 @@ class FirestoreService {
     }
 
 }
+
+
+//    fun obtenerUsuarios(callback: (List<Usuarios>) -> Unit) {
+//        firebaseFirestore.collection(USUARIOS_COLLECTION_NAME)
+//            .get()
+//            .addOnSuccessListener { result ->
+//                val usuarios = mutableListOf<Usuarios>()
+//                for (document in result) {
+//                    val usuario = document.toObject(Usuarios::class.java)
+//                    usuarios.add(usuario)
+//                }
+//                callback(usuarios) // Llama al callback con la lista de usuarios
+//            }
+//            .addOnFailureListener { exception ->
+//                // Manejo de errores si es necesario
+//                callback(emptyList()) // Llama al callback con una lista vacía en caso de error
+//            }
+//    }
+
