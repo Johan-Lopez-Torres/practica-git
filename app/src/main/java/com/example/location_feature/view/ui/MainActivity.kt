@@ -12,11 +12,11 @@ class MainActivity : AppCompatActivity() {
 //    }
 //}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_calendario) //
-    }
-}
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.fragment_calendario) //
+//    }
+//}
 
 
 //    private val TAG = "MainActivity"
@@ -231,5 +231,5 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Botón de retroceso presionado", Toast.LENGTH_SHORT).show()
 //        }
 //    }
-//}
+}
 

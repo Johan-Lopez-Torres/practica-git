@@ -1,4 +1,4 @@
-package com.example.location_feature
+package com.example.location_feature.view.ui.Activities
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -8,8 +8,9 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecoferia.network.FirestoreService
-import com.example.location_feature.model.Usuarios
-import com.example.location_feature.newor.Callback
+import com.example.location_feature.R
+import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.network.Callback
 import kotlin.random.Random
 
 class CrearCuentaActivity : AppCompatActivity() {

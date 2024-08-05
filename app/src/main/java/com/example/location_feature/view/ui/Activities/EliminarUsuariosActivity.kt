@@ -1,17 +1,15 @@
-package com.example.location_feature
+package com.example.location_feature.view.ui.Activities
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecoferia.network.FirestoreService
+import com.example.location_feature.R
 import com.example.location_feature.adapter.UsuariosAdapter
-import com.example.location_feature.model.Usuarios
+import com.example.location_feature.domain.model.Usuarios
 
 class EliminarUsuariosActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.location_feature.R
-import com.example.location_feature.model.Usuarios
+import com.example.location_feature.domain.model.Usuarios
 
 import android.widget.TextView
 
