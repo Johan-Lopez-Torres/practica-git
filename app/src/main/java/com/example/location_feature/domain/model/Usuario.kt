@@ -4,5 +4,5 @@ data class Usuario(
     var id: String = "",
     var email: String = "",
     var password: String = "",
-    var rol: String = "",
+    var role: String = "",
 )
