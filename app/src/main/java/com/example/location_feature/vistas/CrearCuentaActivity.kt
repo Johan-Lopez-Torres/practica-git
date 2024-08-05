@@ -15,17 +15,17 @@ import kotlin.random.Random
 class CrearCuentaActivity : AppCompatActivity() {
     private lateinit var editTextCorreo: EditText
     private lateinit var editTextClave: EditText
-    private lateinit var editTextRol: Spinner // Cambiar de EditText a Spinner
+    private lateinit var editTextRol: Spinner
     private lateinit var buttonGuardar: Button
     private val firestoreService = FirestoreService() // Inicializa tu servicio Firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_crud_crear) // Asegúrate de que este es tu layout
-        editTextCorreo = findViewById(R.id.C_CORREO)
+        setContentView(R.layout.fragment_crud_crear)
+        editTextCorreo = findViewById(R.id.C_CORREO_dox)
         editTextClave = findViewById(R.id.C_CLAVE)
         editTextRol = findViewById(R.id.spinner_roles)
-        buttonGuardar = findViewById(R.id.C_CREAR_BOOTOM)
+        buttonGuardar = findViewById(R.id.C_CREAR_BOOTOM2)
 
         val roles = arrayOf("Administrador", "Conductor", "Ciudadano") // Cambia esto por tus roles
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
@@ -59,6 +59,4 @@ class CrearCuentaActivity : AppCompatActivity() {
             })
         }
     }
-
-
 }

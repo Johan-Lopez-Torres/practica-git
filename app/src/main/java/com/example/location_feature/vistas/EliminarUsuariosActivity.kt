@@ -1,5 +1,6 @@
 package com.example.location_feature
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -46,6 +47,7 @@ class EliminarUsuariosActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun loadUsuarios() {
         firestoreService.getUsuarios { usuarios ->
             usuariosList.clear() // Limpiar la lista antes de agregar nuevos usuarios

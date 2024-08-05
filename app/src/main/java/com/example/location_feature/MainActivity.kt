@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.b_notificacion.adapter.notificacionadapter
 import com.example.b_notificacion.model.notificacionesProvider
 import com.example.location_feature.model.Horario
+import com.example.location_feature.vistas.EditarUsuariosActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import org.json.JSONArray
@@ -39,17 +41,53 @@ import java.util.TimeZone
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var buttonCreate: Button
+    private lateinit var buttonRead: Button
+    private lateinit var buttonDelete: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.crud_bootom) // Establece el layout
+
+        // Inicializa el botón "Crear"
+        buttonCreate = findViewById(R.id.button_create)
+        // Inicializa el botón "Leer"
+        buttonRead = findViewById(R.id.button_read) // Asegúrate de que el ID coincida con tu layout
+        //
+        buttonDelete = findViewById(R.id.button_delete)
+        //
+
+        buttonCreate.setOnClickListener {
+            // Navegar a la actividad CrearCuentaActivity
+            val intent = Intent(this, CrearCuentaActivity::class.java)
+            startActivity(intent) // Inicia la nueva actividad
+        }
+
+        buttonRead.setOnClickListener {
+            // Navegar a la actividad LeerUsuariosActivity
+            val intent = Intent(this, LeerUsuariosActivity::class.java)
+            startActivity(intent) // Inicia la nueva actividad
+        }
+
+        buttonDelete.setOnClickListener {
+            // Navegar a la actividad EliminarUsuariosActivity
+            val intent = Intent(this, EliminarUsuariosActivity::class.java)
+            startActivity(intent) // Inicia la nueva actividad
+        }
+    }
+}
+
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main) //
 //    }
 //}
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.fragment_calendario) //
- }
-}
+//override fun onCreate(savedInstanceState: Bundle?) {
+//    super.onCreate(savedInstanceState)
+//    setContentView(R.layout.fragment_calendario) //
+// }
+//}
 
 
 //    private val TAG = "MainActivity"

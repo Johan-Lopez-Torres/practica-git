@@ -7,14 +7,12 @@
     android:background="@color/green"
     tools:context=".LeerUsuariosActivity">
 
-    <!-- RecyclerView para mostrar la lista de usuarios -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recUsuarios"
+        android:id="@+id/recUsuarios_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"/>
 
-    <!-- Contenedor para mostrar el ProgressBar y una capa de fondo -->
     <FrameLayout
         android:id="@+id/rlArtistas"
         android:layout_width="match_parent"
@@ -34,6 +32,4 @@
             android:layout_gravity="center"/>
 
     </FrameLayout>
-
-
 </FrameLayout>

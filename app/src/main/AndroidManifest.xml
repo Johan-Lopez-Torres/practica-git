@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Location_feature"
         tools:targetApi="31">
         <activity
+            android:name=".vistas.EditarUsuariosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditarUsuariosActitvity"
+            android:exported="false" />
+        <activity
             android:name=".EliminarUsuariosActivity"
             android:exported="false" />
         <activity
@@ -49,7 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

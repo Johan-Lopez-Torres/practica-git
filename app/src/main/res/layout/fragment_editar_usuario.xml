@@ -144,7 +144,7 @@
                 android:src="@drawable/ic_rol" />
 
             <Spinner
-                android:id="@+id/spinner_role"
+                android:id="@+id/spinner_roless"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_margin="1dp"
@@ -154,7 +154,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button_update"
+        android:id="@+id/button_update_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="70dp"
