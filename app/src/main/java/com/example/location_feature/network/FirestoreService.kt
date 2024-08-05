@@ -1,8 +1,8 @@
 package com.example.ecoferia.network
 
 
-import com.example.location_feature.model.Usuarios
-import com.example.location_feature.newor.Callback
+import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.network.Callback
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 

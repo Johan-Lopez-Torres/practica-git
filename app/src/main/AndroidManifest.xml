@@ -24,13 +24,13 @@
         android:theme="@style/Theme.Location_feature"
         >
         <activity
-            android:name=".EliminarUsuariosActivity"
+            android:name=".view.ui.Activities.EliminarUsuariosActivity"
             android:exported="false" />
         <activity
-            android:name=".LeerUsuariosActivity"
+            android:name=".view.ui.Activities.LeerUsuariosActivity"
             android:exported="false" />
         <activity
-            android:name=".CrearCuentaActivity"
+            android:name=".view.ui.Activities.CrearCuentaActivity"
             android:exported="false" />
 
         <receiver
