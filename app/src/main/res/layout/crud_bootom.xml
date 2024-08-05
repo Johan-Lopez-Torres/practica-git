@@ -39,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/shape_create"
         android:text="Crear\nUsuarios"
         android:textColor="@android:color/white"
@@ -71,21 +71,6 @@
         android:padding="16dp" />
 
     <!-- Botón para Actualizar -->
-    <Button
-        android:id="@+id/button_update"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/shape_update"
-        android:text="Editar\nUsuarios"
-        android:textSize="20sp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_read"
-        android:padding="16dp" />
 
     <!-- Botón para Eliminar -->
     <Button
@@ -101,7 +86,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_update"
+        app:layout_constraintTop_toBottomOf="@id/button_read"
         app:layout_constraintVertical_bias="0.5"
         android:padding="16dp"
         android:gravity="center" />

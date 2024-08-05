@@ -52,6 +52,18 @@ class FirestoreService {
             .addOnFailureListener { callback(false) }
     }
 
+    fun actualizarUsuario(usuario: Usuarios, callback: Callback<Boolean>) {
+        val docRef = firebaseFirestore.collection(USUARIOS_COLLECTION_NAME).document(usuario.id)
+        docRef.set(usuario)
+            .addOnSuccessListener { callback.onSuccess(true) }
+            .addOnFailureListener { e ->
+                callback.onError(e)
+                callback.onSuccess(false)
+            }
+    }
+
+}
+
 
 //    fun obtenerUsuarios(callback: (List<Usuarios>) -> Unit) {
 //        firebaseFirestore.collection(USUARIOS_COLLECTION_NAME)
@@ -69,4 +81,4 @@ class FirestoreService {
 //                callback(emptyList()) // Llama al callback con una lista vacía en caso de error
 //            }
 //    }
-}
+
