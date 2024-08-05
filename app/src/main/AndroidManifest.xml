@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Location_feature">
         <activity
-            android:name=".view.ui.Activities.SplashScreen"
+            android:name=".view.ui.Activities.SplashScreenActivity"
             android:exported="false" />
         <activity
             android:name=".view.ui.Activities.EliminarUsuariosActivity"
