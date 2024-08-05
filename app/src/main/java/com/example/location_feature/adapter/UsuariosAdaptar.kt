@@ -1,6 +1,5 @@
 package com.example.location_feature.adapter
 
-
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.location_feature.R
 import com.example.location_feature.model.Usuarios
-
 import android.widget.TextView
 
 class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onItemClick: (Usuarios) -> Unit) :
@@ -45,7 +43,6 @@ class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onIt
     }
 
     class UsuarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val userCorreo: TextView = itemView.findViewById(R.id.text_view_user_correo)
         private val userClave: TextView = itemView.findViewById(R.id.text_view_user_last_clave)
         private val userRol: TextView = itemView.findViewById(R.id.text_view_user_rol)
@@ -56,7 +53,4 @@ class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onIt
             userRol.text = usuario.role
         }
     }
-
-
 }
-
