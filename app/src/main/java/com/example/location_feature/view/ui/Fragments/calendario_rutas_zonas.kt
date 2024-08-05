@@ -35,7 +35,7 @@ class calendario_rutas_zonas : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendario_rutas_zonas, container, false)
+        return inflater.inflate(R.layout.fragment_calendario, container, false)
     }
 
     companion object {

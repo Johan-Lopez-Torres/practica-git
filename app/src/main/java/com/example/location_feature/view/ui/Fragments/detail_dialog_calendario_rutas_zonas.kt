@@ -36,7 +36,7 @@ class detail_dialog_calendario_rutas_zonas : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(
-            R.layout.fragment_detail_dialog_calendario_rutas_zonas,
+            R.layout.fragment_detail_dialog_calendario,
             container,
             false
         )
