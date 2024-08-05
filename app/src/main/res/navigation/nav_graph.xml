@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_iniciar_sesion_to_crear_cuenta"
             app:destination="@id/crear_cuenta" />
+        <action
+            android:id="@+id/action_iniciar_sesion_to_admin"
+            app:destination="@id/admin" />
     </fragment>
     <fragment
         android:id="@+id/home_mapa"
@@ -56,4 +59,9 @@
         android:name="com.example.location_feature.view.ui.Fragments.detail_dialog_calendario"
         android:label="fragment_detail_dialog_calendario"
         tools:layout="@layout/fragment_detail_dialog_calendario" />
+    <fragment
+        android:id="@+id/admin"
+        android:name="com.example.location_feature.view.ui.Fragments.admin"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_admin"/>
 </navigation>

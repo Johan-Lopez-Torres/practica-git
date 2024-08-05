@@ -16,7 +16,7 @@ class AdminActivity: AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.crud_bootom) // Establece el layout
+        setContentView(R.layout.fragment_admin) // Establece el layout
 
         // Inicializa el botón "Crear"
         buttonCreate = findViewById(R.id.button_create)

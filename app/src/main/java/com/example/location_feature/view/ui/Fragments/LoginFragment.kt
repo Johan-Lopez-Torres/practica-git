@@ -44,7 +44,7 @@ class LoginFragment : Fragment() {
             when(state) {
                 is Resource.Success -> {
                     handleLoading(isLoading = false)
-                    findNavController().navigate(R.id.action_iniciar_sesion_to_home_mapa)
+                    navigateBasedOnRole(state.data.role) // Llama a la función para manejar la navegación por rol
                 }
                 is Resource.Error -> {
                     handleLoading(isLoading = false)
@@ -60,6 +60,17 @@ class LoginFragment : Fragment() {
         }
     }
 
+    // Nueva función para manejar la navegación según el rol del usuario
+    private fun navigateBasedOnRole(role: String) {
+        when (role) {
+            "Ciudadano" -> findNavController().navigate(R.id.action_iniciar_sesion_to_home_mapa)
+            "Conductor" -> findNavController().navigate(R.id.action_iniciar_sesion_to_home_mapa)
+            "Administrador" -> findNavController().navigate(R.id.action_iniciar_sesion_to_admin)
+            else -> {
+                Toast.makeText(requireContext(), "Rol desconocido", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     private fun initListeners() {
         with(binding) {
             btnLAcceso.setOnClickListener { handleLogin() }
