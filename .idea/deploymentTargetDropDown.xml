@@ -10,12 +10,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="D:\hola\avd\.android\avd\Pixel_3a_API_33.avd" />
+                  <value value="D:\hola\avd\.android\avd\firebase-producto.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-07-29T03:03:38.403526400Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-08-03T17:07:23.430318400Z" />
         </State>
       </entry>
     </value>
