@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.R
 import com.example.location_feature.view.adapter.UsuariosAdapter
-import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.domain.model.Usuario
 
 class LeerUsuariosActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var usuariosAdapter: UsuariosAdapter
     private lateinit var firestoreService: FirestoreService
-    private var usuariosList: MutableList<Usuarios> = mutableListOf()
+    private var usuarioList: MutableList<Usuario> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +29,9 @@ class LeerUsuariosActivity : AppCompatActivity() {
 
     private fun loadUsuarios() {
         firestoreService.getUsuarios { usuarios ->
-            usuariosList.clear()
-            usuariosList.addAll(usuarios)
-            usuariosAdapter = UsuariosAdapter(usuariosList) { usuario ->
+            usuarioList.clear()
+            usuarioList.addAll(usuarios)
+            usuariosAdapter = UsuariosAdapter(usuarioList) { usuario ->
                 // Aquí puedes manejar el clic en un usuario, por ejemplo, abrir una pantalla de detalles
                 Toast.makeText(this, "Seleccionaste: ${usuario.email}", Toast.LENGTH_SHORT).show()
             }

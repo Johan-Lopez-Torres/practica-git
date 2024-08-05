@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.R
-import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.domain.model.Usuario
 import com.example.location_feature.network.Callback
 import kotlin.random.Random
 
@@ -41,7 +41,7 @@ class CrearCuentaActivity : AppCompatActivity() {
             val id = "usuario" + (Random.nextInt(1, 100))
 
             // Crea una instancia de Usuarios
-            val usuario = Usuarios(id= id, email = correo, password = clave, role = rol)
+            val usuario = Usuario(id= id, email = correo, password = clave, role = rol)
 
             // Llama al método para crear el usuario en Firestore
             firestoreService.crearUsuario(usuario, object : Callback<Boolean> {

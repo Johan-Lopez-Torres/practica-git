@@ -32,7 +32,9 @@
         <activity
             android:name=".view.ui.Activities.CrearCuentaActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".view.ui.Activities.EditarUsuariosActivity"
+            android:exported="false" />
         <receiver
             android:name=".GeofenceBroadcastReceiver"
             android:enabled="true"

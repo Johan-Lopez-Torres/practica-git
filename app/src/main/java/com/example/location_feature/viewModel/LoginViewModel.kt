@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.location_feature.domain.model.Usuario
 import com.example.location_feature.domain.usecase.FirebaseLoginUseCase
 import com.example.location_feature.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +18,8 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: FirebaseLoginUseCase
 ) :  ViewModel() {
 
-    private val _loginState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-    val loginState: LiveData<Resource<Boolean>>
+    private val _loginState: MutableLiveData<Resource<Usuario>> = MutableLiveData()
+    val loginState: LiveData<Resource<Usuario>>
         get() = _loginState
 
     fun login(email: String, password: String) {

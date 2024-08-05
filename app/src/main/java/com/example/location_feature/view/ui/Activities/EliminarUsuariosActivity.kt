@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.R
 import com.example.location_feature.view.adapter.UsuariosAdapter
-import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.domain.model.Usuario
 
 class EliminarUsuariosActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var usuariosAdapter: UsuariosAdapter
     private var firestoreService = FirestoreService()
-    private var usuariosList: MutableList<Usuarios> = mutableListOf() // Lista mutable para almacenar usuarios
+    private var usuarioList: MutableList<Usuario> = mutableListOf() // Lista mutable para almacenar usuarios
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class EliminarUsuariosActivity : AppCompatActivity() {
         loadUsuarios()
 
         // Configurar el adaptador con un listener para manejar la selección
-        usuariosAdapter = UsuariosAdapter(usuariosList) { usuario ->
+        usuariosAdapter = UsuariosAdapter(usuarioList) { usuario ->
             // Lógica para manejar la selección del usuario
         }
         recyclerView.adapter = usuariosAdapter
@@ -46,13 +46,13 @@ class EliminarUsuariosActivity : AppCompatActivity() {
 
     private fun loadUsuarios() {
         firestoreService.getUsuarios { usuarios ->
-            usuariosList.clear() // Limpiar la lista antes de agregar nuevos usuarios
-            usuariosList.addAll(usuarios) // Agregar nuevos usuarios
+            usuarioList.clear() // Limpiar la lista antes de agregar nuevos usuarios
+            usuarioList.addAll(usuarios) // Agregar nuevos usuarios
             usuariosAdapter.notifyDataSetChanged() // Notificar al adaptador que los datos han cambiado
         }
     }
 
-    private fun eliminarUsuario(usuario: Usuarios) {
+    private fun eliminarUsuario(usuario: Usuario) {
         firestoreService.eliminarUsuario(usuario.id) { result ->
             if (result) {
                 Toast.makeText(this, "Usuario eliminado", Toast.LENGTH_SHORT).show()

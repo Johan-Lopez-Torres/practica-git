@@ -1,17 +1,12 @@
 package com.example.location_feature.view.ui.Activities;
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ecoferia.network.FirestoreService
-import com.example.location_feature.model.Usuarios
-import com.example.location_feature.newor.Callback
+import com.example.location_feature.R
 
-public class AdminActivity: AppCompatActivity() {
+class AdminActivity: AppCompatActivity(){
     private lateinit var buttonCreate: Button
     private lateinit var buttonRead: Button
     private lateinit var buttonDelete: Button
@@ -29,9 +24,6 @@ public class AdminActivity: AppCompatActivity() {
         buttonRead = findViewById(R.id.button_read) // Asegúrate de que el ID coincida con tu layout
         //
         buttonDelete = findViewById(R.id.button_delete)
-        //
-        buttonEdit = findViewById(R.id.button_update) // Inicializa el botón de editar
-
 
         buttonCreate.setOnClickListener {
             // Navegar a la actividad CrearCuentaActivity
@@ -50,10 +42,6 @@ public class AdminActivity: AppCompatActivity() {
             val intent = Intent(this, EliminarUsuariosActivity::class.java)
             startActivity(intent) // Inicia la nueva actividad
         }
-        buttonEdit.setOnClickListener {
-            // Navegar a la actividad EditarUsuarioActivity
-            val intent = Intent(this, EditarUsuariosActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 }

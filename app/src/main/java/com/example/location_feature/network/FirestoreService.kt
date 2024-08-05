@@ -1,7 +1,7 @@
 package com.example.ecoferia.network
 
 
-import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.domain.model.Usuario
 import com.example.location_feature.network.Callback
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -16,7 +16,7 @@ class FirestoreService {
         firebaseFirestore.firestoreSettings = settings
     }
 
-    fun crearUsuario(usuario: Usuarios, callback: Callback<Boolean>) {
+    fun crearUsuario(usuario: Usuario, callback: Callback<Boolean>) {
         firebaseFirestore.collection(USUARIOS_COLLECTION_NAME)
             .add(usuario)
             .addOnSuccessListener {
@@ -28,13 +28,13 @@ class FirestoreService {
             }
     }
 
-    fun getUsuarios(callback: (List<Usuarios>) -> Unit) {
+    fun getUsuarios(callback: (List<Usuario>) -> Unit) {
         firebaseFirestore.collection("Usuarios")
             .get()
             .addOnSuccessListener { result ->
-                val usuarios = mutableListOf<Usuarios>()
+                val usuarios = mutableListOf<Usuario>()
                 for (document in result) {
-                    val usuario = document.toObject(Usuarios::class.java)
+                    val usuario = document.toObject(Usuario::class.java)
                     usuario.id = document.id // Asigna el ID del documento a la propiedad id del usuario
                     usuarios.add(usuario)
                 }
@@ -53,20 +53,13 @@ class FirestoreService {
     }
 
 
-//    fun obtenerUsuarios(callback: (List<Usuarios>) -> Unit) {
-//        firebaseFirestore.collection(USUARIOS_COLLECTION_NAME)
-//            .get()
-//            .addOnSuccessListener { result ->
-//                val usuarios = mutableListOf<Usuarios>()
-//                for (document in result) {
-//                    val usuario = document.toObject(Usuarios::class.java)
-//                    usuarios.add(usuario)
-//                }
-//                callback(usuarios) // Llama al callback con la lista de usuarios
-//            }
-//            .addOnFailureListener { exception ->
-//                // Manejo de errores si es necesario
-//                callback(emptyList()) // Llama al callback con una lista vacía en caso de error
-//            }
-//    }
+    fun actualizarUsuario(usuario: Usuario, callback: Callback<Boolean>) {
+        val docRef = firebaseFirestore.collection(USUARIOS_COLLECTION_NAME).document(usuario.id)
+        docRef.set(usuario)
+            .addOnSuccessListener { callback.onSuccess(true) }
+            .addOnFailureListener { e ->
+                callback.onError(e)
+                callback.onSuccess(false)
+            }
+    }
 }

@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.location_feature.R
-import com.example.location_feature.domain.model.Usuarios
+import com.example.location_feature.domain.model.Usuario
 
 import android.widget.TextView
 
-class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onItemClick: (Usuarios) -> Unit) :
+class UsuariosAdapter(private val usuarioList: List<Usuario>, private val onItemClick: (Usuario) -> Unit) :
     RecyclerView.Adapter<UsuariosAdapter.UsuarioViewHolder>() {
 
-    private var selectedUser: Usuarios? = null // Variable para almacenar el usuario seleccionado
+    private var selectedUser: Usuario? = null // Variable para almacenar el usuario seleccionado
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsuarioViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +23,7 @@ class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onIt
     }
 
     override fun onBindViewHolder(holder: UsuarioViewHolder, position: Int) {
-        val usuario = usuariosList[position]
+        val usuario = usuarioList[position]
         holder.bind(usuario)
 
         // Cambiar el fondo del elemento seleccionado
@@ -38,9 +38,9 @@ class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onIt
         }
     }
 
-    override fun getItemCount(): Int = usuariosList.size
+    override fun getItemCount(): Int = usuarioList.size
 
-    fun getSelectedUser(): Usuarios? {
+    fun getSelectedUser(): Usuario? {
         return selectedUser // Devuelve el usuario seleccionado
     }
 
@@ -50,7 +50,7 @@ class UsuariosAdapter(private val usuariosList: List<Usuarios>, private val onIt
         private val userClave: TextView = itemView.findViewById(R.id.text_view_user_last_clave)
         private val userRol: TextView = itemView.findViewById(R.id.text_view_user_rol)
 
-        fun bind(usuario: Usuarios) {
+        fun bind(usuario: Usuario) {
             userCorreo.text = usuario.email
             userClave.text = usuario.password
             userRol.text = usuario.role

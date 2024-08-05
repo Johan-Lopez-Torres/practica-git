@@ -7,16 +7,17 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecoferia.network.FirestoreService
-import com.example.location_feature.model.Usuarios
-import com.example.location_feature.newor.Callback
+import com.example.location_feature.R
+import com.example.location_feature.domain.model.Usuario
+import com.example.location_feature.network.Callback
 
-public class EditarUsuariosActivity: AppCompatActivity() {
+class EditarUsuariosActivity : AppCompatActivity() {
     private lateinit var editEmail: EditText
     private lateinit var editPassword: EditText
     private lateinit var spinnerRole: Spinner
     private lateinit var buttonUpdate: Button
     private lateinit var firestoreService: FirestoreService
-    private var usuriousDeselection: Usuarios? = null // Cambiado a nullable
+    private var usuriousDeselection: Usuario? = null // Cambiado a nullable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +26,13 @@ public class EditarUsuariosActivity: AppCompatActivity() {
         // Inicializar las vistas
         editEmail = findViewById(R.id.edit_email)
         editPassword = findViewById(R.id.edit_password)
-        spinnerRole = findViewById(R.id.spinner_roless)
-        buttonUpdate = findViewById(R.id.button_update_edit)
+        spinnerRole = findViewById(R.id.spinner_role)
+        buttonUpdate = findViewById(R.id.button_update)
 
         firestoreService = FirestoreService()
 
         // Recibir el usuario seleccionado del Intent
-        usuriousDeselection = intent.getParcelableExtra<Usuarios>("usuario", Usuarios::class.java)
+        usuriousDeselection = intent.getParcelableExtra<Usuario>("usuario", Usuario::class.java)
 
         if (usuriousDeselection != null) {
             // Rellenar los campos con los datos del usuario seleccionado
@@ -46,11 +47,11 @@ public class EditarUsuariosActivity: AppCompatActivity() {
 
             // Manejar la actualización del usuario
             buttonUpdate.setOnClickListener {
-                val updatedUser = Usuarios(
-                        id = usuriousDeselection!!.id,
-                        email = editEmail.text.toString(),
-                        password = editPassword.text.toString(),
-                        role = spinnerRole.selectedItem.toString()
+                val updatedUser = Usuario(
+                    id = usuriousDeselection!!.id,
+                    email = editEmail.text.toString(),
+                    password = editPassword.text.toString(),
+                    role = spinnerRole.selectedItem.toString()
                 )
 
                 firestoreService.actualizarUsuario(updatedUser, object : Callback<Boolean> {
