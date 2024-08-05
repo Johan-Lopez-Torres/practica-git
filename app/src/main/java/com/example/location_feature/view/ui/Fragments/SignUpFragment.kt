@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.location_feature.R
 import com.example.location_feature.databinding.FragmentCrearCuentaBinding
 import com.example.location_feature.util.Resource
@@ -43,12 +44,8 @@ class SignUpFragment : Fragment() {
             when(state) {
                 is Resource.Success -> {
                     handleLoading(isLoading = false)
-                    activity?.onBackPressed()
-                    Toast.makeText(
-                        requireContext(),
-                        "Sign up success",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    findNavController().navigate(R.id.action_crear_cuenta_to_iniciar_sesion)
+                    Toast.makeText(requireContext(), "Login with your account created", Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Error -> {
                     handleLoading(isLoading = false)
@@ -66,9 +63,9 @@ class SignUpFragment : Fragment() {
 
     private fun initListeners() {
         with(binding) {
-            btnCRegister.setOnClickListener {
-                handleSignUp()
-            }
+            btnCRegister.setOnClickListener { handleSignUp() }
+            btnCLogin.setOnClickListener { findNavController().navigate(R.id.action_crear_cuenta_to_iniciar_sesion) }
+            btnCBack.setOnClickListener { findNavController().navigate(R.id.action_crear_cuenta_to_iniciar_sesion) }
         }
     }
 
