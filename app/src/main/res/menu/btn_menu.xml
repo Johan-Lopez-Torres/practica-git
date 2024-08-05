@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navInicio"
-        android:icon="@drawable/btn_inicio"
-        android:title="Inicio" />
-    <item
-        android:id="@+id/navMapa"
+        android:id="@+id/home_mapa"
         android:icon="@drawable/btn_ubicacion"
         android:title="Artistas" />
     <item
-        android:id="@+id/navCalendario"
+        android:id="@+id/calendario_rutas_zonas"
         android:icon="@drawable/btn_calendario"
         android:title="Presentaciones" />
     <item
-        android:id="@+id/navComentarios"
+        android:id="@+id/comentarios_cuenta"
         android:icon="@drawable/btn_comentario"
         android:title="Ubicaciones" />
 </menu>

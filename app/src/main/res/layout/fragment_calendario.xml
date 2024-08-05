@@ -6,7 +6,7 @@
     android:id="@+id/calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vistas.Calendario">
+    tools:context=".view.ui.Fragments.Calendario">
 
     <ImageView
         android:id="@+id/image_view_calendario"

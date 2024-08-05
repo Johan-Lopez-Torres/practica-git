@@ -1,4 +1,4 @@
-package com.example.location_feature.model
+package com.example.location_feature.domain.model
 
 
 import android.os.Parcel

@@ -5,34 +5,23 @@
     android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".view.ui.MainActivity"
     android:background="@color/white">
     <!-- context en el layout ^ -->
-    <ImageButton
-        android:id="@+id/btnL_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="45dp"
-        android:background="@drawable/shape_regresar"
-        android:contentDescription="@string/buttonback"
-        android:padding="15dp"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/TVLiniciosesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="70dp"
         android:paddingStart="4dp"
         android:text="@string/textologin"
         android:textColor="@color/darkblue"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnL_back"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
 
@@ -139,6 +128,7 @@
                 android:layout_weight="1"
                 android:hint="@string/editpassword"
                 android:inputType="textPassword"
+                app:passwordToggleEnabled="true"
                 android:padding="12dp"
                 android:textSize="16sp" />
 
@@ -191,6 +181,7 @@
     </LinearLayout>
 
 
+
     <Button
         android:id="@+id/btnL_acceso"
         android:layout_width="0dp"
@@ -205,6 +196,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/LLLlogin" />
 
+    <ProgressBar
+        android:id="@+id/PBLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/btnL_acceso"
+        app:layout_constraintStart_toStartOf="@id/btnL_acceso"
+        app:layout_constraintEnd_toEndOf="@id/btnL_acceso"
+        app:layout_constraintBottom_toBottomOf="@id/btnL_acceso"/>
 
     <TextView
         android:id="@+id/TVLredessociales"

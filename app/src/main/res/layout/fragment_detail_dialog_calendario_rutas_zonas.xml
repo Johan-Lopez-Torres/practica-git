@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".vistas.detail_dialog_calendario_rutas_zonas">
+    tools:context=".view.ui.Fragments.detail_dialog_calendario_rutas_zonas">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

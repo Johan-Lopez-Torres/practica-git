@@ -290,6 +290,18 @@
         app:layout_constraintTop_toBottomOf="@id/LLClogin" />
 
 
+    <ProgressBar
+        android:id="@+id/PBRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/btnC_register"
+        app:layout_constraintStart_toStartOf="@id/btnC_register"
+        app:layout_constraintEnd_toEndOf="@id/btnC_register"
+        app:layout_constraintBottom_toBottomOf="@id/btnC_register"/>
+
+
     <TextView
         android:id="@+id/TVCredessociales"
         android:layout_width="wrap_content"
