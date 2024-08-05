@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "93451503607",
+    "firebase_url": "https://trash-track-producto-default-rtdb.firebaseio.com",
     "project_id": "trash-track-producto",
     "storage_bucket": "trash-track-producto.appspot.com"
   },
