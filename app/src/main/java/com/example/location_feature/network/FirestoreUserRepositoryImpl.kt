@@ -17,7 +17,7 @@ class FirestoreUserRepositoryImpl @Inject constructor(
             var isSuccessful = false
             FirebaseFirestore.getInstance().collection(USERS_COLLECTION)
                 .document(user.id)
-                .set(user.copy(role = "ciudadano"), SetOptions.merge()) // Guarda el role como "ciudadano"
+                .set(user.copy(role = "Ciudadano"), SetOptions.merge()) // Guarda el role como "ciudadano"
                 .addOnCompleteListener { isSuccessful = it.isSuccessful }
                 .await()
             isSuccessful

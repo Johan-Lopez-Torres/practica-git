@@ -23,7 +23,7 @@ class FirebaseSignUpUseCase @Inject constructor(
                     email = email,
                     id = userUID,
                     password = password, // Guarda el password aquí
-                    role = "ciudadano" // Asegúrate de que el role sea "ciudadano"
+                    role = "Ciudadano" // Asegúrate de que el role sea "ciudadano"
                 )
             )
 
