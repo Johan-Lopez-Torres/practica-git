@@ -37,6 +37,7 @@
     <string name="ic_email">icon_email</string>
     <string name="ic_user">icon_user</string>
     <string name="ic_password">icon_password</string>
+    <string name="ic_rol">icon_email</string>
     <string name="cambiarcontra">Cambiar Contraseña</string>
 
     <string name="tener_acceso">TENER ACCESO</string>

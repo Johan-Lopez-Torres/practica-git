@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crear_cuenta_CRUD"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/descripcionforma"
+        android:scaleType="fitXY"
+        android:src="@drawable/forma"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnC_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/shape_regresar"
+        android:contentDescription="@string/buttonback"
+        android:padding="15dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/LLCcreacuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnC_back">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuenta de Usuario"
+            android:textColor="@color/black"
+            android:textSize="21sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CREAR_CORREO"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/gray"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LLCcreacuenta">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="1dp"
+                android:contentDescription="@string/ic_user"
+                android:src="@drawable/ic_user" />
+
+            <EditText
+                android:id="@+id/C_CORREO"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:hint="Correo"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CARDCemail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/gray"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CREAR_CORREO">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="1dp"
+                android:contentDescription="@string/ic_email"
+                android:src="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/C_CLAVE"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:hint="Clave"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_role"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/gray"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CARDCemail">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="1dp"
+                android:contentDescription="@string/ic_rol"
+                android:src="@drawable/ic_rol" />
+
+            <Spinner
+                android:id="@+id/spinner_roles"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:padding="12dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:background="@drawable/shape_registrar"
+        android:id="@+id/label_rol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="70dp"
+        android:text="Rol"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CARDCemail" />
+
+    <Button
+        android:id="@+id/C_CREAR_BOOTOM"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_registrar"
+        android:text="@string/buttoncrear"
+        android:textSize="28sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_role" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
