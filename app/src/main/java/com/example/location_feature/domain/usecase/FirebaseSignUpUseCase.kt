@@ -1,6 +1,6 @@
 package com.example.location_feature.domain.usecase
 
-import com.esaudev.firebaseyt.domain.repository.UserRepository
+import com.example.location_feature.domain.repository.UserRepository
 import com.example.location_feature.domain.model.Usuario
 import com.example.location_feature.domain.repository.AuthRepository
 import com.example.location_feature.util.Resource

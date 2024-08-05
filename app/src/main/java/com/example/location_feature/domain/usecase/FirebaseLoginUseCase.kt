@@ -1,6 +1,6 @@
 package com.example.location_feature.domain.usecase
 
-import com.esaudev.firebaseyt.domain.repository.UserRepository
+import com.example.location_feature.domain.repository.UserRepository
 import com.example.location_feature.domain.model.Usuario
 import com.example.location_feature.domain.repository.AuthRepository
 import com.example.location_feature.util.Resource
@@ -15,15 +15,17 @@ class FirebaseLoginUseCase @Inject constructor(
 
     suspend operator fun invoke(email: String, password: String): Flow<Resource<Usuario>> = flow {
         emit(Resource.Loading)
-        val userUID = authRepository.login(email,password)
-        if (userUID.isNotEmpty()) {
-
-            val user = userRepository.getUser(id = userUID)
-
-            emit(Resource.Success(user))
-            emit(Resource.Finished)
-        } else {
-            emit(Resource.Error("Login error"))
+        try {
+            val userUID  = authRepository.login(email, password)
+            if (userUID.isNotEmpty()) {
+                val user = userRepository.getUser(id = userUID)
+                emit(Resource.Success(user))
+            } else {
+                emit(Resource.Error("Login error"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "Unexpected error occurred"))
+        } finally {
             emit(Resource.Finished)
         }
     }
