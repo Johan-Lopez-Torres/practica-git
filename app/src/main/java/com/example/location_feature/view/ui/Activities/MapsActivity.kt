@@ -16,7 +16,7 @@ import com.example.location_feature.GeofenceHelper
 import com.example.location_feature.R
 import com.example.location_feature.model.Message
 import com.example.location_feature.model.TruckLocation
-import com.example.location_feature.view.ui.Fragments.MainActivity
+import com.example.location_feature.view.ui.MainActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient

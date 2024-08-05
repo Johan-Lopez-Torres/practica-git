@@ -66,7 +66,7 @@
 
         <!-- Main Activity -->
         <activity
-            android:name=".view.ui.Fragments.MainActivity"
+            android:name=".view.ui.MainActivity"
             android:exported="true">
         </activity>
 

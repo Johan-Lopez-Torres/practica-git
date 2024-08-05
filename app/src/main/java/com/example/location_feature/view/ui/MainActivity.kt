@@ -1,4 +1,4 @@
-package com.example.location_feature.view.ui.Fragments
+package com.example.location_feature.view.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -20,14 +20,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.tasks.Task
-import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.b_notificacion.adapter.notificacionadapter
-import com.example.b_notificacion.model.notificacionesProvider
 import com.example.location_feature.R
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.maps.GoogleMap
@@ -45,9 +37,6 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "MainActivity"
         private const val LOCATION_REQUEST_CODE = 10001
     }
-
-
-
     var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             for (location in locationResult.locations) {
@@ -273,47 +262,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Log.d(TAG, "onRequestPermissionsResult: Permission denied")
             }
-        }
-    }
-
-
-    fun initRecyclerView() {
-        val recyclerView = findViewById<RecyclerView>(R.id.RECYCLERVIEW_Notificaciones)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = notificacionadapter(notificacionesProvider.noticicacionesList)
-    }
-
-    fun onCreate1(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_notifecaciones)
-        initRecyclerView()
-
-        // Obtén una referencia al botón btRegreo1
-        val btnBack: ImageButton = findViewById(R.id.btRegreo1)
-
-        // Configura un listener de clics para el botón
-        btnBack.setOnClickListener {
-            // Muestra un toast al presionar el botón
-            Toast.makeText(this, "Botón de retroceso presionado", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun onCreate3(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.comentarios_cuenta)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.comentarios)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        // Obtén una referencia al botón btnC_back
-        val btnBack: ImageButton = findViewById(R.id.btRegreo2)
-
-        // Configura un listener de clics para el botón
-        btnBack.setOnClickListener {
-            // Muestra un toast al presionar el botón
-            Toast.makeText(this, "Botón de retroceso presionado", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -17,16 +17,7 @@
         android:id="@+id/comentarios_cuenta"
         android:name="com.example.location_feature.view.ui.Fragments.comentarios_cuenta"
         android:label="fragment_comentarios_cuenta"
-        tools:layout="@layout/fragment_comentarios_cuenta" >
-        <action
-            android:id="@+id/action_comentarios_cuenta_to_editar_perfil"
-            app:destination="@id/editar_perfil" />
-    </fragment>
-    <fragment
-        android:id="@+id/editar_perfil"
-        android:name="com.example.location_feature.view.ui.Fragments.editar_perfil"
-        android:label="fragment_editar_perfil"
-        tools:layout="@layout/fragment_editar_perfil" />
+        tools:layout="@layout/fragment_comentarios_cuenta" />
     <fragment
         android:id="@+id/iniciar_sesion"
         android:name="com.example.location_feature.view.ui.Fragments.LoginFragment"
