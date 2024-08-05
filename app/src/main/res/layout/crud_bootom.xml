@@ -60,7 +60,7 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/shape_read"
-        android:text="Ver\nUsuarios"
+        android:text="Editar\nUsuarios"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
