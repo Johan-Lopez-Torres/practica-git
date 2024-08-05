@@ -1,4 +1,4 @@
-package com.example.location_feature.dependencyInjection
+package com.example.location_feature.network.dependencyInjection
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
