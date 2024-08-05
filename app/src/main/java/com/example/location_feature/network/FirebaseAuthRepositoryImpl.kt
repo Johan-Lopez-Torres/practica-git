@@ -10,24 +10,31 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ): AuthRepository {
 
-    override suspend fun login(email: String, password: String): Boolean {
+    override suspend fun login(email: String, password: String): String {
         return try {
-            firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            true
+            var userUID = ""
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    userUID = it.user?.uid ?: ""
+                }
+                .await()
+            userUID
         } catch (e: Exception) {
-            Log.e("FirebaseAuth", "Login error: ${e.localizedMessage}", e)
-            false
+            ""
         }
     }
 
-    override suspend fun signUp(email: String, password: String): Boolean {
+    override suspend fun signUp(email: String, password: String): String {
         return try {
+            var userUID = ""
             firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    userUID = it.user?.uid ?: ""
+                }
                 .await()
-            true
+            userUID
         } catch (e: Exception) {
-            Log.e("FirebaseAuth", "SignUp error: ${e.message}", e)
-            false
+            ""
         }
     }
 }
