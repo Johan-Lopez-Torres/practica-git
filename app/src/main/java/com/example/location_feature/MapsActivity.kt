@@ -52,6 +52,7 @@ import java.io.IOException
 class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
     GoogleMap.OnMarkerDragListener {
 
+    private var camionLocationMarker: Marker? = null
 
     //VARIABLES DE MAPAS
     private lateinit var mMap: GoogleMap
@@ -64,7 +65,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private lateinit var geocoder: Geocoder
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var geofenceHelper: GeofenceHelper
-    private val isDriver: Boolean = false // Cambia esto según sea necesario
+    private val isDriver: Boolean = true // Cambia esto según sea necesario
 
 
     companion object {
@@ -117,7 +118,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         val database = FirebaseDatabase.getInstance().reference
         val message = Message("John", "Hello, world!")
         database.child("personas").push().setValue(message)
-
 
 
         val database2 = Firebase.database
@@ -188,8 +188,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     }
 
 
-
-
     override fun onMapLongClick(p0: LatLng) {
 //        if (ContextCompat.checkSelfPermission(
 //                this,
@@ -214,8 +212,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 //            }
 //        }
     }
-
-
 
 
     //FUNCIONES DE FIREBASE REALTIME DATABASE
@@ -247,7 +243,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 if (camionLocation != null) {
                     Log.d(TAG, "Ubicación del camión: $camionLocation")
                     updateMapWithCamionLocation(camionLocation.latitude, camionLocation.longitude)
-                }else{
+                } else {
                     Log.d(TAG, "No se encontró la ubicación del camión")
                 }
 
@@ -266,14 +262,20 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
     private fun updateMapWithCamionLocation(latitude: Double, longitude: Double) {
         val camionLocation = LatLng(latitude, longitude)
-        mMap.clear()
-        mMap.addMarker(
-            MarkerOptions()
+
+        if (camionLocationMarker == null) {
+            val markerOptions = MarkerOptions()
                 .position(camionLocation)
-                .title("Camión de basura")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar)) // Asegúrate de tener el recurso adecuado
-        )
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
+                .title("Trash Truck")
+                .snippet("This is the current location")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar))
+            camionLocationMarker = mMap.addMarker(markerOptions)
+            Log.d(TAG, "carrito actual: " + camionLocationMarker!!.position)
+        } else {
+            camionLocationMarker!!.position = camionLocation
+        }
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camionLocation, 15f))
     }
 
 
@@ -289,13 +291,13 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private val locationCallback2 = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
-            Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
+            Log.d(TAG, "onLocationResult firestore: " + locationResult.lastLocation)
             locationResult.lastLocation?.let {
                 if (isDriver) {
                     // Actualiza solo la ubicación del usuario
                     setUserLocationMarker(it)
                     updateCamionLocation(it)
-                }else
+                } else
                     setUserLocationMarker(it)
             }
         }
@@ -303,7 +305,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
-        val iconRes = if (isDriver) R.drawable.redcar else R.drawable.persona // Cambia los recursos según corresponda
+        val iconRes =
+            if (isDriver) R.drawable.redcar else R.drawable.persona // Cambia los recursos según corresponda
 
 
         if (userLocationMarker == null) {
@@ -313,11 +316,11 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 .rotation(location.bearing)
                 .anchor(0.5f, 0.5f)
             userLocationMarker = mMap.addMarker(markerOptions)
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
         } else {
             userLocationMarker!!.position = latLng
             userLocationMarker!!.rotation = location.bearing
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
         }
 
 //        if (userLocationAccuracyCircle == null) {
