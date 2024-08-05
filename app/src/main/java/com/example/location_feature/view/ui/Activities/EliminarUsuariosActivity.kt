@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.R
-import com.example.location_feature.adapter.UsuariosAdapter
+import com.example.location_feature.view.adapter.UsuariosAdapter
 import com.example.location_feature.domain.model.Usuarios
 
 class EliminarUsuariosActivity : AppCompatActivity() {

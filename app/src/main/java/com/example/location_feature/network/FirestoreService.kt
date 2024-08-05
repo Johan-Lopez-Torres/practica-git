@@ -6,7 +6,7 @@ import com.example.location_feature.network.Callback
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 
-const val USUARIOS_COLLECTION_NAME = "usuarios"
+const val USUARIOS_COLLECTION_NAME = "Usuarios"
 
 class FirestoreService {
     private val firebaseFirestore = FirebaseFirestore.getInstance()
@@ -29,7 +29,7 @@ class FirestoreService {
     }
 
     fun getUsuarios(callback: (List<Usuarios>) -> Unit) {
-        firebaseFirestore.collection("usuarios")
+        firebaseFirestore.collection("Usuarios")
             .get()
             .addOnSuccessListener { result ->
                 val usuarios = mutableListOf<Usuarios>()

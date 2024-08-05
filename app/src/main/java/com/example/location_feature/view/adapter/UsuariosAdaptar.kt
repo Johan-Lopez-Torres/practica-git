@@ -1,4 +1,4 @@
-package com.example.location_feature.adapter
+package com.example.location_feature.view.adapter
 
 
 import android.graphics.Color
