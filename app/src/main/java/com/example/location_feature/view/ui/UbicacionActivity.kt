@@ -1,29 +1,12 @@
 package com.example.location_feature.view.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.IntentSender.SendIntentException
-import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.tasks.Task
 import com.example.location_feature.R
 import com.example.location_feature.util.LocationManager
-import com.google.android.gms.location.GeofencingClient
-import com.google.android.gms.maps.GoogleMap
 import com.google.firebase.FirebaseApp
 
 class UbicacionActivity : AppCompatActivity() {
@@ -32,12 +15,12 @@ class UbicacionActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     companion object {
-        const val TAG = "MainActivity"
+        const val TAG = "UbicacionActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.fragment_ubicacionmap)
 
         FirebaseApp.initializeApp(this)?.let {
             Log.d(TAG, "Firebase initialized successfully")

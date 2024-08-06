@@ -22,8 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Location_feature">
         <activity
-            android:name=".view.ui.Activities.UbicacionActivity"
-            android:exported="false" />
+            android:name=".view.ui.MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".view.ui.UbicacionActivity"
+            android:exported="true" />
         <activity
             android:name=".view.ui.Activities.SplashScreenActivity"
             android:exported="false" />
@@ -66,9 +69,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.ui.MainActivity"
-            android:exported="true"></activity>
+
     </application>
 
 </manifest>
