@@ -41,7 +41,7 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnC_back">
 
@@ -64,7 +64,6 @@
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/TVCwelcome"
         android:layout_width="wrap_content"
@@ -77,15 +76,14 @@
         app:layout_constraintTop_toBottomOf="@id/LLCcreacuenta" />
 
 
-
     <ImageView
         android:id="@+id/IVcamion"
-        android:layout_width="160dp"
-        android:layout_height="0dp"
+        android:layout_width="118dp"
+        android:layout_height="113dp"
         android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
         android:contentDescription="@string/descripcioncamion"
+        android:scaleType="fitXY"
         android:src="@drawable/create_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -216,15 +214,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/shape_registrar"
         android:text="@string/buttoncrear"
         android:textSize="28sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/LLClogin" />
-
 
     <ProgressBar
         android:id="@+id/PBRegister"

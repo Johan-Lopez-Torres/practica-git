@@ -70,7 +70,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
-
+    implementation ("com.google.dagger:hilt-android:2.44")
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")

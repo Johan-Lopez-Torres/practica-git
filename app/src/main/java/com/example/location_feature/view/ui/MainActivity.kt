@@ -13,14 +13,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.ecoferia.network.FirestoreService
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 //    private lateinit var appBarLayout: AppBarLayout
 //    private lateinit var bottomNavigationView: BottomNavigationView
 //    private lateinit var toolbar: Toolbar
 //    private lateinit var firestoreService: FirestoreService
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +32,32 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_graph) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.mainFragmentContainer) as NavHostFragment  // Asegúrate de usar el ID correcto
         val navController = navHostFragment.navController
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nvMenu)
         bottomNavigationView.setupWithNavController(navController)
     }
+
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContentView(R.layout.activity_main)
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.nav_graph) as NavHostFragment
+//        val navController = navHostFragment.navController
+//
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nvMenu)
+//        bottomNavigationView.setupWithNavController(navController)
+//    }
 }
 
 
