@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Location_feature">
         <activity
+            android:name=".view.ui.Activities.UbicacionActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.ui.Activities.SplashScreenActivity"
             android:exported="false" />
         <activity
@@ -62,7 +65,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main Activity -->
+        </activity>
         <activity
             android:name=".view.ui.MainActivity"
             android:exported="true"></activity>

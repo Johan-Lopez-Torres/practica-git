@@ -17,6 +17,7 @@ import com.example.location_feature.R
 import com.example.location_feature.model.Message
 import com.example.location_feature.model.TruckLocation
 import com.example.location_feature.view.ui.MainActivity
+import com.example.location_feature.view.ui.UbicacionActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
@@ -219,9 +220,9 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
         )
 
         myRef.setValue(camionLocation).addOnSuccessListener {
-            Log.d(MainActivity.TAG, "Ubicación actualizada en Firebase")
+            Log.d(UbicacionActivity.TAG, "Ubicación actualizada en Firebase")
         }.addOnFailureListener {
-            Log.e(MainActivity.TAG, "Error al actualizar la ubicación en Firebase", it)
+            Log.e(UbicacionActivity.TAG, "Error al actualizar la ubicación en Firebase", it)
         }
     }
 
@@ -245,7 +246,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e(
-                    MainActivity.TAG,
+                    UbicacionActivity.TAG,
                     "Error al leer la ubicación del camión",
                     error.toException()
                 )

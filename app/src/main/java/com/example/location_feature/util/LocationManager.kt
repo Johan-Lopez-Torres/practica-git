@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.location_feature.view.ui.MainActivity
+import com.example.location_feature.view.ui.UbicacionActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 
@@ -45,7 +46,7 @@ class LocationManager(private val activity: Activity, private val fusedLocationP
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
-                    Log.d(MainActivity.TAG, "onLocationResult: $location")
+                    Log.d(UbicacionActivity.TAG, "onLocationResult: $location")
                     callback(location)
                 }
             }
