@@ -1,6 +1,7 @@
 package com.example.location_feature.view.ui.Activities
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -27,18 +28,23 @@ class AdminActivity : AppCompatActivity() {
         buttonRead = findViewById(R.id.button_read)
         buttonDelete = findViewById(R.id.button_delete)
 
+        // Agrega logs para verificar si los botones están siendo encontrados
+        Log.d("AdminActivity", "Botones inicializados")
+
         buttonCreate.setOnClickListener {
+            Log.d("AdminActivity", "Botón Crear clickeado")
             navController.navigate(R.id.action_admin_to_crud_crear) // Navegar al fragmento CrearCuentaFragment
         }
 
         buttonRead.setOnClickListener {
+            Log.d("AdminActivity", "Botón Leer clickeado")
             navController.navigate(R.id.action_admin_to_leer_usuario) // Navegar al fragmento LeerUsuariosFragment
         }
 
         buttonDelete.setOnClickListener {
+            Log.d("AdminActivity", "Botón Eliminar clickeado")
             navController.navigate(R.id.action_admin_to_eliminar_cuenta) // Navegar al fragmento EliminarUsuariosFragment
         }
-
 
     }
 }
