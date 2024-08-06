@@ -5,7 +5,7 @@
         android:icon="@drawable/btn_ubicacion"
         android:title="Ubicacion" />
     <item
-        android:id="@+id/calendario_rutas_zonas"
+        android:id="@+id/calendario"
         android:icon="@drawable/btn_calendario"
         android:title="Calendario" />
     <item
