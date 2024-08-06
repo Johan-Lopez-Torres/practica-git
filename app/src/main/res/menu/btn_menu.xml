@@ -3,13 +3,13 @@
     <item
         android:id="@+id/home_mapa"
         android:icon="@drawable/btn_ubicacion"
-        android:title="Artistas" />
+        android:title="Ubicacion" />
     <item
         android:id="@+id/calendario_rutas_zonas"
         android:icon="@drawable/btn_calendario"
-        android:title="Presentaciones" />
+        android:title="Calendario" />
     <item
         android:id="@+id/comentarios_cuenta"
         android:icon="@drawable/btn_comentario"
-        android:title="Ubicaciones" />
+        android:title="Comentarios" />
 </menu>
