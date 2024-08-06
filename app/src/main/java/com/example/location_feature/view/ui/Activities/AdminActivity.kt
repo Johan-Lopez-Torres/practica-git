@@ -1,47 +1,44 @@
-package com.example.location_feature.view.ui.Activities;
+package com.example.location_feature.view.ui.Activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.location_feature.R
 
-class AdminActivity: AppCompatActivity(){
+class AdminActivity : AppCompatActivity() {
+
     private lateinit var buttonCreate: Button
     private lateinit var buttonRead: Button
     private lateinit var buttonDelete: Button
     private lateinit var buttonEdit: Button // Nuevo botón para editar
-
-    // Declara otros botones si es necesario
+    private lateinit var navController: NavController // NavController para navegación
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_admin) // Establece el layout
 
-        // Inicializa el botón "Crear"
+        // Inicializa el NavController
+        navController = Navigation.findNavController(this, R.id.nav_graph) // Asegúrate de tener un nav_host_fragment en tu layout
+
+        // Inicializa los botones
         buttonCreate = findViewById(R.id.button_create)
-        // Inicializa el botón "Leer"
-        buttonRead = findViewById(R.id.button_read) // Asegúrate de que el ID coincida con tu layout
-        //
+        buttonRead = findViewById(R.id.button_read)
         buttonDelete = findViewById(R.id.button_delete)
 
         buttonCreate.setOnClickListener {
-            // Navegar a la actividad CrearCuentaActivity
-            val intent = Intent(this, CrearCuentaActivity::class.java)
-            startActivity(intent) // Inicia la nueva actividad
+            navController.navigate(R.id.action_admin_to_crud_crear) // Navegar al fragmento CrearCuentaFragment
         }
 
         buttonRead.setOnClickListener {
-            // Navegar a la actividad LeerUsuariosActivity
-            val intent = Intent(this, LeerUsuariosActivity::class.java)
-            startActivity(intent) // Inicia la nueva actividad
+            navController.navigate(R.id.action_admin_to_leer_usuario) // Navegar al fragmento LeerUsuariosFragment
         }
 
         buttonDelete.setOnClickListener {
-            // Navegar a la actividad EliminarUsuariosActivity
-            val intent = Intent(this, EliminarUsuariosActivity::class.java)
-            startActivity(intent) // Inicia la nueva actividad
+            navController.navigate(R.id.action_admin_to_eliminar_cuenta) // Navegar al fragmento EliminarUsuariosFragment
         }
+
 
     }
 }

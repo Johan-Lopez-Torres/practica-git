@@ -1,4 +1,5 @@
-package com.example.location_feature.view.ui.Activities;
+package com.example.location_feature.view.ui.Activities
+
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -6,6 +7,8 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.R
 import com.example.location_feature.domain.model.Usuario
@@ -17,13 +20,15 @@ class EditarUsuariosActivity : AppCompatActivity() {
     private lateinit var spinnerRole: Spinner
     private lateinit var buttonUpdate: Button
     private lateinit var firestoreService: FirestoreService
-    private var usuriousDeselection: Usuario? = null // Cambiado a nullable
+    private var usuriousDeselection: Usuario? = null
+    private lateinit var navController: NavController // NavController para navegación
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_editar_usuario)
 
-        // Inicializar las vistas
+        navController = Navigation.findNavController(this, R.id.nav_graph)
+
         editEmail = findViewById(R.id.edit_email)
         editPassword = findViewById(R.id.edit_password)
         spinnerRole = findViewById(R.id.spinner_role)
@@ -31,21 +36,17 @@ class EditarUsuariosActivity : AppCompatActivity() {
 
         firestoreService = FirestoreService()
 
-        // Recibir el usuario seleccionado del Intent
         usuriousDeselection = intent.getParcelableExtra<Usuario>("usuario", Usuario::class.java)
 
         if (usuriousDeselection != null) {
-            // Rellenar los campos con los datos del usuario seleccionado
             editEmail.setText(usuriousDeselection!!.email)
             editPassword.setText(usuriousDeselection!!.password)
 
-            // Configurar el spinner con los roles
-            val roles = arrayOf("Administrador", "Conductor", "Ciudadano") // Ejemplo de roles
+            val roles = arrayOf("Administrador", "Conductor", "Ciudadano")
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerRole.adapter = adapter
 
-            // Manejar la actualización del usuario
             buttonUpdate.setOnClickListener {
                 val updatedUser = Usuario(
                     id = usuriousDeselection!!.id,
@@ -58,7 +59,8 @@ class EditarUsuariosActivity : AppCompatActivity() {
                     override fun onSuccess(result: Boolean) {
                         if (result) {
                             Toast.makeText(this@EditarUsuariosActivity, "Usuario actualizado correctamente", Toast.LENGTH_SHORT).show()
-                            finish() // Cerrar la actividad y volver a la anterior
+                            navController.navigate(R.id.action_editar_usuario_to_leer_usuario) // Navegar de vuelta a AdminActivity
+                            finish()
                         }
                     }
 
@@ -69,8 +71,7 @@ class EditarUsuariosActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, "Usuario no proporcionado", Toast.LENGTH_SHORT).show()
-            finish() // Cerrar la actividad si no hay usuario
+            finish()
         }
     }
-
 }

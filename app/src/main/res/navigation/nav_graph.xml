@@ -63,5 +63,55 @@
         android:id="@+id/admin"
         android:name="com.example.location_feature.view.ui.Fragments.admin"
         android:label="fragment_admin"
-        tools:layout="@layout/fragment_admin"/>
+        tools:layout="@layout/fragment_admin">
+        <action
+            android:id="@+id/action_admin_to_crud_crear"
+            app:destination="@id/crud_crear" />
+        <action
+            android:id="@+id/action_admin_to_eliminar_cuenta"
+            app:destination="@id/eliminar_cuenta" />
+        <action
+            android:id="@+id/action_admin_to_leer_usuario"
+            app:destination="@id/leer_usuario" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crud_crear"
+        android:name="com.example.location_feature.view.ui.Fragments.crud_crear"
+        android:label="fragment_crud_crear"
+        tools:layout="@layout/fragment_crud_crear">
+        <action
+            android:id="@+id/action_crud_crear_to_admin"
+            app:destination="@id/admin" />
+    </fragment>
+    <fragment
+        android:id="@+id/leer_usuario"
+        android:name="com.example.location_feature.view.ui.Fragments.leer_usuario"
+        android:label="fragment_leer_usuario"
+        tools:layout="@layout/fragment_leer_usuario" >
+        <action
+            android:id="@+id/action_leer_usuario_to_editar_usuario"
+            app:destination="@id/editar_usuario" />
+        <action
+            android:id="@+id/action_leer_usuario_to_admin"
+            app:destination="@id/admin" />
+    </fragment>
+    <fragment
+        android:id="@+id/editar_usuario"
+        android:name="com.example.location_feature.view.ui.Fragments.editar_usuario"
+        android:label="fragment_editar_usuario"
+        tools:layout="@layout/fragment_editar_usuario" >
+        <action
+            android:id="@+id/action_editar_usuario_to_leer_usuario"
+            app:destination="@id/leer_usuario" />
+    </fragment>
+    <fragment
+        android:id="@+id/eliminar_cuenta"
+        android:name="com.example.location_feature.view.ui.Fragments.eliminar_cuenta"
+        android:label="fragment_eliminar_cuenta"
+        tools:layout="@layout/fragment_eliminar_cuenta" >
+        <action
+            android:id="@+id/action_eliminar_cuenta_to_admin"
+            app:destination="@id/admin" />
+    </fragment>
 </navigation>
