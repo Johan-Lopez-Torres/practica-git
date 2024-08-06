@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 //        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nvMenu)
 //        bottomNavigationView.setupWithNavController(navController)
 //    }
-}
+//}
 
 
 
