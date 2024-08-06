@@ -1,50 +1,18 @@
-package com.example.location_feature.view.ui.Activities
+package com.example.location_feature.view.ui.activities
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.location_feature.R
 
 class AdminActivity : AppCompatActivity() {
 
-    private lateinit var buttonCreate: Button
-    private lateinit var buttonRead: Button
-    private lateinit var buttonDelete: Button
-    private lateinit var buttonEdit: Button // Nuevo botón para editar
-    private lateinit var navController: NavController // NavController para navegación
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_admin) // Establece el layout
+        setContentView(R.layout.fragment_admin) // Asegúrate de que tienes este layout
 
-        // Inicializa el NavController
-        navController = Navigation.findNavController(this, R.id.nav_graph) // Asegúrate de tener un nav_host_fragment en tu layout
+        val navController = findNavController(R.id.nav_graph)
 
-        // Inicializa los botones
-        buttonCreate = findViewById(R.id.button_create)
-        buttonRead = findViewById(R.id.button_read)
-        buttonDelete = findViewById(R.id.button_delete)
-
-        // Agrega logs para verificar si los botones están siendo encontrados
-        Log.d("AdminActivity", "Botones inicializados")
-
-        buttonCreate.setOnClickListener {
-            Log.d("AdminActivity", "Botón Crear clickeado")
-            navController.navigate(R.id.action_admin_to_crud_crear) // Navegar al fragmento CrearCuentaFragment
-        }
-
-        buttonRead.setOnClickListener {
-            Log.d("AdminActivity", "Botón Leer clickeado")
-            navController.navigate(R.id.action_admin_to_leer_usuario) // Navegar al fragmento LeerUsuariosFragment
-        }
-
-        buttonDelete.setOnClickListener {
-            Log.d("AdminActivity", "Botón Eliminar clickeado")
-            navController.navigate(R.id.action_admin_to_eliminar_cuenta) // Navegar al fragmento EliminarUsuariosFragment
-        }
-
+        // El resto de la configuración se maneja en AdminFragment
     }
 }
