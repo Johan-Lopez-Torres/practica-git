@@ -18,28 +18,76 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-//    private lateinit var appBarLayout: AppBarLayout
-//    private lateinit var bottomNavigationView: BottomNavigationView
-//    private lateinit var toolbar: Toolbar
-//    private lateinit var firestoreService: FirestoreService
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Inicializar el NavHostFragment y NavController
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.mainFragmentContainer) as NavHostFragment  // Asegúrate de usar el ID correcto
+            supportFragmentManager.findFragmentById(R.id.mainFragmentContainer) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nvMenu)
+        // Inicializar el BottomNavigationView
+        bottomNavigationView = findViewById(R.id.nvMenu)
         bottomNavigationView.setupWithNavController(navController)
+
+        // Configurar AppBarConfiguration para los fragmentos que usan BottomNavigationView
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.home_mapa, R.id.iniciar_sesion, R.id.crear_cuenta // Reemplazar con los IDs de tus fragmentos
+        ))
+
+        // Enlazar la Toolbar con el NavController
+        val toolbar = findViewById<Toolbar>(R.id.Toolbarmain)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        // Agregar un listener al NavController para manejar los cambios de destino
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                // Ocultar BottomNavigationView para los fragmentos de login y signup
+                R.id.iniciar_sesion, R.id.crear_cuenta -> hideBottomNav()
+                // Mostrar BottomNavigationView para otros fragmentos
+                else -> showBottomNav()
+            }
+        }
     }
+
+    // Método para ocultar BottomNavigationView
+    private fun hideBottomNav() {
+        bottomNavigationView.visibility = BottomNavigationView.GONE
+    }
+
+    // Método para mostrar BottomNavigationView
+    private fun showBottomNav() {
+        bottomNavigationView.visibility = BottomNavigationView.VISIBLE
+    }
+}
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContentView(R.layout.activity_main)
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+//
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.mainFragmentContainer) as NavHostFragment  // Asegúrate de usar el ID correcto
+//        val navController = navHostFragment.navController
+//
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nvMenu)
+//        bottomNavigationView.setupWithNavController(navController)
+//    }
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,46 +118,3 @@ class MainActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_main)
 //    }
 //}
-
-
-
-//        // Inicializar las vistas usando findViewById
-//        appBarLayout = findViewById(R.id.app_bar)
-//        bottomNavigationView = findViewById(R.id.nvMenu)
-//        toolbar = findViewById(R.id.Toolbarmain)
-//
-//        // Obtener el NavHostFragment y NavController
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_graph) as NavHostFragment
-//        val navController = navHostFragment.navController
-//
-//        // Configurar AppBarConfiguration para los fragmentos que usan BottomNavigationView
-//        val appBarConfiguration = AppBarConfiguration(setOf(
-//            R.id.home_mapa, R.id.comentarios_cuenta, R.id.calendario     // Reemplazar con los IDs de tus fragmentos
-//        ))
-//
-//        // Enlazar la Toolbar y BottomNavigationView con el NavController
-//        toolbar.setupWithNavController(navController, appBarConfiguration)
-//        bottomNavigationView.setupWithNavController(navController)
-//
-//        // Agregar un listener al NavController para manejar los cambios de destino
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                // Ocultar AppBarLayout y BottomNavigationView para los fragmentos de login y signup
-//                R.id.iniciar_sesion, R.id.crearcuenta -> hideAppBarAndBottomNav()
-//                // Mostrar AppBarLayout y BottomNavigationView para otros fragmentos
-//                else -> showAppBarAndBottomNav()
-//            }
-//        }
-//    }
-//
-//    // Método para ocultar AppBarLayout y BottomNavigationView
-//    private fun hideAppBarAndBottomNav() {
-//        appBarLayout.visibility = AppBarLayout.GONE
-//        bottomNavigationView.visibility = BottomNavigationView.GONE
-//    }
-//
-//    // Método para mostrar AppBarLayout y BottomNavigationView
-//    private fun showAppBarAndBottomNav() {
-//        appBarLayout.visibility = AppBarLayout.VISIBLE
-//        bottomNavigationView.visibility = BottomNavigationView.VISIBLE
-//    }
