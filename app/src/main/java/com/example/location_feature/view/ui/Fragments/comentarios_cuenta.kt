@@ -32,7 +32,7 @@ class comentarios_cuenta : Fragment() {
         temaEditText = view.findViewById(R.id.tv_texto_commentario)
         comentarioEditText = view.findViewById(R.id.tv_texto_commentario2)
         enviarButton = view.findViewById(R.id.btnEnvia_comentarior)
-        regresarButton = view.findViewById(R.id.btRegreo2)
+
 
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.comentarios)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

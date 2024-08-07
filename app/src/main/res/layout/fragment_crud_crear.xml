@@ -36,7 +36,7 @@
 
             android:text="Cuenta de Usuario"
             android:textColor="@color/darkblue"
-            android:textSize="21sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
     </LinearLayout>

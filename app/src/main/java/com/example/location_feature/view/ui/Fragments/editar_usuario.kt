@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.ecoferia.network.FirestoreService
 import com.example.location_feature.databinding.FragmentEditarUsuarioBinding
 import com.example.location_feature.domain.model.Usuario
@@ -30,10 +31,7 @@ class editar_usuario : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obtener el usuario pasado como argumento
-        val usuario = arguments?.let {
-            editar_usuarioArgs.fromBundle(it).usuario
-        }
+
 
         // Obtener el Usuario pasado como argumento
         usuario = arguments?.getParcelable("usuario")
