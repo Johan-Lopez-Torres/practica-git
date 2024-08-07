@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.example.location_feature.view.ui.Activities.MapsActivity
+import com.example.location_feature.view.ui.MainActivity
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
@@ -36,7 +36,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_ENTER", "dfasdsadsdf",
-                    MapsActivity::class.java
+                    MainActivity::class.java
                 )
             }
 
@@ -44,7 +44,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_DWELL", "",
-                    MapsActivity::class.java
+                    MainActivity::class.java
                 )
             }
 
@@ -52,7 +52,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_EXIT", "",
-                    MapsActivity::class.java
+                    MainActivity::class.java
                 )
             }
         }
