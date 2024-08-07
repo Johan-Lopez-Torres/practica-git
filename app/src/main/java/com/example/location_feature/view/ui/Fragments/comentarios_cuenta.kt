@@ -1,60 +1,84 @@
 package com.example.location_feature.view.ui.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.location_feature.R
+import com.example.location_feature.domain.model.Comentario
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1_COMENTARIOS = "param11"
-private const val ARG_PARAM2_COMENTARIOS = "param22"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [comentarios_cuenta.newInstance] factory method to
- * create an instance of this fragment.
- */
 class comentarios_cuenta : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param11: String? = null
-    private var param22: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param11 = it.getString(ARG_PARAM1_COMENTARIOS)
-            param22 = it.getString(ARG_PARAM2_COMENTARIOS)
-        }
-    }
+    private lateinit var temaEditText: EditText
+    private lateinit var comentarioEditText: EditText
+    private lateinit var enviarButton: Button
+    private lateinit var regresarButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comentarios_cuenta, container, false)
+        val view = inflater.inflate(R.layout.fragment_comentarios_cuenta, container, false)
+
+        temaEditText = view.findViewById(R.id.tv_texto_commentario)
+        comentarioEditText = view.findViewById(R.id.tv_texto_commentario2)
+        enviarButton = view.findViewById(R.id.btnEnvia_comentarior)
+        regresarButton = view.findViewById(R.id.btRegreo2)
+
+        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.comentarios)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        enviarButton.setOnClickListener {
+            val tema = temaEditText.text.toString()
+            val comentario = comentarioEditText.text.toString()
+
+            if (tema.isNotBlank() && comentario.isNotBlank()) {
+                val comentarioId = generateComentarioId()
+                sendComentarioToFirebase(comentarioId, tema, comentario)
+            } else {
+                Toast.makeText(requireContext(), "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        regresarButton.setOnClickListener {
+            // Handle navigation back to the previous fragment
+            activity?.onBackPressed()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment comentarios_cuenta.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            comentarios_cuenta().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1_COMENTARIOS, param1)
-                    putString(ARG_PARAM2_COMENTARIOS, param2)
-                }
+    private fun generateComentarioId(): String {
+        val random = Random(System.currentTimeMillis())
+        val number = random.nextInt(99) + 1
+        return "comentario$number"
+    }
+
+    private fun sendComentarioToFirebase(id: String, tema: String, comentario: String) {
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val comentarioObject = Comentario(id, tema, comentario)
+
+        firebaseFirestore.collection("Comentarios")
+            .add(comentarioObject)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Comentario enviado con éxito", Toast.LENGTH_SHORT).show()
+                temaEditText.text.clear()
+                comentarioEditText.text.clear()
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Error al enviar el comentario", Toast.LENGTH_SHORT).show()
             }
     }
 }

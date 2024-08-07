@@ -18,14 +18,14 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/Toolbarmain"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:gravity="center_horizontal"
-                android:src="@drawable/banner" />
+                android:src="@drawable/banner2" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

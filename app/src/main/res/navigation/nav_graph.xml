@@ -101,9 +101,13 @@
         android:name="com.example.location_feature.view.ui.Fragments.editar_usuario"
         android:label="fragment_editar_usuario"
         tools:layout="@layout/fragment_editar_usuario" >
+
         <action
             android:id="@+id/action_editar_usuario_to_leer_usuario"
             app:destination="@id/leer_usuario" />
+        <argument
+            android:name="usuario"
+            app:argType="com.example.location_feature.domain.model.Usuario" />
     </fragment>
     <fragment
         android:id="@+id/eliminar_cuenta"
