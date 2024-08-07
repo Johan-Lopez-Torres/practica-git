@@ -32,7 +32,7 @@
             android:text="Editar usuario"
             android:textColor="@color/black"
             android:textSize="21sp"
-            android:textStyle="normal" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

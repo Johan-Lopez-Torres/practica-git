@@ -4,35 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="15dp"
+    app:cardElevation="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#00B8D4"
-        android:padding="16dp">
+        android:padding="11dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="@color/white"
+            android:layout_height="85dp"
             android:orientation="horizontal"
-            android:paddingBottom="8dp">
+            android:background="@color/gray">
 
             <ImageView
                 android:id="@+id/image_view_user"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginHorizontal="12dp"
                 android:background="@drawable/shape_registrar"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ic_user"
+                android:padding="5dp"
+                android:layout_gravity="center|end"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="5dp">
 
 
                 <TextView
@@ -40,13 +42,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CORREO: "
+                    android:layout_marginVertical="2dp"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/text_view_user_last_clave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="2dp"
+
                     android:text="CLAVE: "
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -55,6 +60,8 @@
                     android:id="@+id/text_view_user_rol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="2dp"
+
                     android:text="ROL: "
                     android:textColor="@color/black"
                     android:textSize="14sp" />
