@@ -52,10 +52,10 @@ class comentarios_cuenta : Fragment() {
             }
         }
 
-        regresarButton.setOnClickListener {
+        //regresarButton.setOnClickListener {
             // Handle navigation back to the previous fragment
-            activity?.onBackPressed()
-        }
+        //    activity?.onBackPressed()
+        //}
 
         return view
     }
