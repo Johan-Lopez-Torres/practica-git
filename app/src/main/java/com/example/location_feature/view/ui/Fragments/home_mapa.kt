@@ -189,7 +189,7 @@ class home_mapa : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongClickListen
                 .position(camionLocation)
                 .title("Trash Truck")
                 .snippet("This is the current location")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.truck))
             camionLocationMarker = mMap.addMarker(markerOptions)
             Log.d(TAG, "carrito actual: " + camionLocationMarker!!.position)
         } else {
@@ -214,7 +214,7 @@ class home_mapa : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLongClickListen
 
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
-        val iconRes = if (isDriver) R.drawable.redcar else R.drawable.persona
+        val iconRes = if (isDriver) R.drawable.truck else R.drawable.persona
         if (userLocationMarker == null) {
             val markerOptions = MarkerOptions()
                 .position(latLng)
