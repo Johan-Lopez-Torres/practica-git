@@ -263,7 +263,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
                 .position(camionLocation)
                 .title("Trash Truck")
                 .snippet("This is the current location")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.redcar))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.truck))
             camionLocationMarker = mMap.addMarker(markerOptions)
             Log.d(TAG, "carrito actual: " + camionLocationMarker!!.position)
         } else {
@@ -301,7 +301,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback, GoogleMap.OnMapLong
     private fun setUserLocationMarker(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
         val iconRes =
-            if (isDriver) R.drawable.redcar else R.drawable.persona // Cambia los recursos según corresponda
+            if (isDriver) R.drawable.truck else R.drawable.persona // Cambia los recursos según corresponda
 
 
         if (userLocationMarker == null) {
