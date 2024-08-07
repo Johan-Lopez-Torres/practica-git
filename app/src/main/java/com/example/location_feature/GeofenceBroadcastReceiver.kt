@@ -1,15 +1,15 @@
 package com.example.location_feature
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.example.location_feature.view.ui.MainActivity
+import com.example.location_feature.view.ui.Activities.NotificationHandlerActivity
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
-
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
@@ -18,7 +18,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     @SuppressLint("VisibleForTests")
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Toast.makeText(context, "Geofence triggered...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Geofence triggered...", Toast.LENGTH_SHORT).show()
         val notificationHelper = NotificationHelper(context)
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
         if (geofencingEvent.hasError()) {
@@ -29,14 +29,16 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         for (geofence in geofenceList) {
             Log.d(TAG, "onReceive geodenceEvent: " + geofence.requestId)
         }
-        //        Location location = geofencingEvent.getTriggeringLocation();
         val transitionType = geofencingEvent.geofenceTransition
+        val notificationIntent = Intent(context, NotificationHandlerActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         when (transitionType) {
             Geofence.GEOFENCE_TRANSITION_ENTER -> {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_ENTER", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_ENTER", "dfasdsadsdf",
-                    MainActivity::class.java
+                    pendingIntent
                 )
             }
 
@@ -44,7 +46,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_DWELL", "",
-                    MainActivity::class.java
+                    pendingIntent
                 )
             }
 
@@ -52,7 +54,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show()
                 notificationHelper.sendHighPriorityNotification(
                     "GEOFENCE_TRANSITION_EXIT", "",
-                    MainActivity::class.java
+                    pendingIntent
                 )
             }
         }

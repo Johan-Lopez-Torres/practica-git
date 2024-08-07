@@ -50,18 +50,7 @@ class NotificationHelper(private val context: Context?) {
         manager.createNotificationChannel(channel)
     }
 
-    fun sendHighPriorityNotification(title: String, message: String, activityClass: Class<*>) {
-        val intent = Intent(context, activityClass).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        )
-
+    fun sendHighPriorityNotification(title: String, message: String, pendingIntent: PendingIntent) {
         val notification = NotificationCompat.Builder(context!!, CHANNEL_ID)
             .setSmallIcon(R.drawable.icon31) // Reemplaza con tu icono de notificación
             .setContentTitle(title)
@@ -83,4 +72,5 @@ class NotificationHelper(private val context: Context?) {
             notify(1, notification)
         }
     }
+
 }
